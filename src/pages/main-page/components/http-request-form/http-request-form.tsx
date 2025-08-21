@@ -29,12 +29,18 @@ const HTTPRequestForm = () => {
     setHeaders((curr) => [...curr, name]);
   };
 
-  const changeHeader = (index: number, value: string) => {
+  const changeHeaderName = (index: number, value: string) => {
     setHeaders((curr) =>
       curr.map((headerValue, headerIndex) =>
         headerIndex === index ? value : headerValue
       )
     );
+
+    reset({ headers: {} }, { keepDirtyValues: false });
+  };
+
+  const deleteHeader = (index: number) => {
+    setHeaders((curr) => curr.filter((_, i) => i !== index));
 
     reset({ headers: {} }, { keepDirtyValues: false });
   };
@@ -76,7 +82,10 @@ const HTTPRequestForm = () => {
               placeholder="Header"
               variant="outlined"
               fullWidth
-              onChange={(e) => changeHeader(index, e.target.value)}
+              onChange={(e) => changeHeaderName(index, e.target.value)}
+              onKeyDown={(e) => {
+                e.key === 'Backspace' && !header && deleteHeader(index);
+              }}
               value={header}
               autoFocus
             />

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   FormControl,
   TextField,
@@ -10,15 +11,32 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { HTTPRequestInputs, HTTPRequestMethod } from './types';
 
 const HTTPRequestForm = () => {
-  const { register, handleSubmit } = useForm<HTTPRequestInputs>();
+  const [headers, setHeaders] = useState<string[]>([]);
+
+  const { register, handleSubmit, reset } = useForm<HTTPRequestInputs>();
 
   const onSubmit: SubmitHandler<HTTPRequestInputs> = async (data) => {
+    console.log('data', data);
     const response = await fetch(data.url, {
       method: data.method,
       headers: data.headers,
       body: data.body,
     });
     console.log(response);
+  };
+
+  const createHeader = (name: string) => {
+    setHeaders((curr) => [...curr, name]);
+  };
+
+  const changeHeader = (index: number, value: string) => {
+    setHeaders((curr) =>
+      curr.map((headerValue, headerIndex) =>
+        headerIndex === index ? value : headerValue
+      )
+    );
+
+    reset({ headers: {} }, { keepDirtyValues: false });
   };
 
   return (
@@ -50,6 +68,36 @@ const HTTPRequestForm = () => {
           }}
           {...register('url', { required: true })}
         />
+      </Box>
+      <Box>
+        {Object.values(headers).map((header, index) => (
+          <Box display="flex" key={index}>
+            <TextField
+              placeholder="Header"
+              variant="outlined"
+              fullWidth
+              onChange={(e) => changeHeader(index, e.target.value)}
+              value={header}
+              autoFocus
+            />
+            <TextField
+              placeholder="Value"
+              variant="outlined"
+              fullWidth
+              {...register(`headers.${header}`)}
+            />
+          </Box>
+        ))}
+        <Box display="flex">
+          <TextField
+            placeholder="Header"
+            fullWidth
+            onChange={(e) => createHeader(e.target.value)}
+            value=""
+            disabled={headers[headers.length - 1] === ''}
+          />
+          <TextField placeholder="Value" fullWidth disabled />
+        </Box>
       </Box>
       <Button type="submit" variant="contained">
         Send

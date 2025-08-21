@@ -10,6 +10,6 @@ export enum HTTPRequestMethod {
 export type HTTPRequestInputs = {
   url: string;
   method: HTTPRequestMethod;
-  headers: Record<string, string>;
+  headers: { name: string; value: string }[];
   body: string;
 };

@@ -8,42 +8,47 @@ import {
   MenuItem,
   Paper,
 } from '@mui/material';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form';
 import { HTTPRequestInputs, HTTPRequestMethod } from './types';
 
 const HTTPRequestForm = () => {
-  const [headers, setHeaders] = useState<string[]>([]);
-
-  const { register, handleSubmit, reset } = useForm<HTTPRequestInputs>();
+  const { control, register, handleSubmit } = useForm<HTTPRequestInputs>();
+  const { fields, append, update, remove } = useFieldArray({
+    control,
+    name: 'headers',
+  });
 
   const onSubmit: SubmitHandler<HTTPRequestInputs> = async (data) => {
     console.log('data', data);
+
+    const reqHeaders = new Headers();
+
+    data.headers.forEach(({ name, value }) => {
+      if (name && value) {
+        reqHeaders.append(name, value);
+      }
+    });
+
+    console.log('headers', Object.fromEntries(reqHeaders.entries()));
+
     const response = await fetch(data.url, {
       method: data.method,
-      headers: data.headers,
+      headers: reqHeaders,
       body: data.body,
     });
     console.log(response);
   };
 
   const createHeader = (name: string) => {
-    setHeaders((curr) => [...curr, name]);
+    append({ name, value: '' });
   };
 
-  const changeHeaderName = (index: number, value: string) => {
-    setHeaders((curr) =>
-      curr.map((headerValue, headerIndex) =>
-        headerIndex === index ? value : headerValue
-      )
-    );
-
-    reset({ headers: {} }, { keepDirtyValues: false });
+  const changeHeaderName = (index: number, name: string) => {
+    update(index, { name, value: fields[index]?.value || '' });
   };
 
   const deleteHeader = (index: number) => {
-    setHeaders((curr) => curr.filter((_, i) => i !== index));
-
-    reset({ headers: {} }, { keepDirtyValues: false });
+    remove(index);
   };
 
   return (
@@ -88,24 +93,29 @@ const HTTPRequestForm = () => {
           />
         </Box>
         <Paper variant="outlined" elevation={1} sx={{ padding: 2 }}>
-          {Object.values(headers).map((header, index) => (
+          {fields.map(({ name }, index) => (
             <Box display="flex" key={index}>
               <TextField
                 placeholder="Header"
                 variant="outlined"
                 fullWidth
-                onChange={(e) => changeHeaderName(index, e.target.value)}
                 onKeyDown={(e) => {
-                  e.key === 'Backspace' && !header && deleteHeader(index);
+                  if (e.key === 'Backspace' && !name) {
+                    e.preventDefault();
+                    deleteHeader(index);
+                  }
                 }}
-                value={header}
+                value={name}
                 autoFocus
+                {...register(`headers.${index}.name`, {
+                  onChange: (e) => changeHeaderName(index, e.target.value),
+                })}
               />
               <TextField
                 placeholder="Value"
                 variant="outlined"
                 fullWidth
-                {...register(`headers.${header}`)}
+                {...register(`headers.${index}.value`, { required: true })}
               />
             </Box>
           ))}
@@ -115,7 +125,9 @@ const HTTPRequestForm = () => {
               fullWidth
               onChange={(e) => createHeader(e.target.value)}
               value=""
-              disabled={headers[headers.length - 1] === ''}
+              disabled={
+                fields.length !== 0 && fields[fields.length - 1].name === ''
+              }
             />
             <TextField placeholder="Value" fullWidth disabled />
           </Box>

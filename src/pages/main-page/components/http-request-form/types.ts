@@ -13,3 +13,8 @@ export type HTTPRequestInputs = {
   headers: { name: string; value: string }[];
   body: string;
 };
+
+export enum HttpRequestFormTabs {
+  HEADERS = 'headers',
+  BODY = 'body',
+}

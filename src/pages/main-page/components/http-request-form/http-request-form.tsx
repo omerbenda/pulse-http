@@ -1,32 +1,17 @@
 import { useState } from 'react';
-import {
-  FormControl,
-  TextField,
-  Button,
-  Box,
-  Select,
-  MenuItem,
-  Paper,
-  Tab,
-  Tabs,
-} from '@mui/material';
-import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form';
-import {
-  HttpRequestFormTabs,
-  HTTPRequestInputs,
-  HTTPRequestMethod,
-} from './types';
+import { FormControl, Button, Box, Paper, Tab, Tabs } from '@mui/material';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { HttpRequestFormTabs, HTTPRequestInputs } from './types';
+import HeadersControl from './components/headers-control';
+import BodyControl from './components/body-control';
+import UrlControl from './components/url-control';
 
 const HTTPRequestForm = () => {
   const [activeTab, setActiveTab] = useState<HttpRequestFormTabs>(
     HttpRequestFormTabs.HEADERS
   );
 
-  const { control, register, handleSubmit } = useForm<HTTPRequestInputs>();
-  const { fields, append, update, remove } = useFieldArray({
-    control,
-    name: 'headers',
-  });
+  const { control, handleSubmit } = useForm<HTTPRequestInputs>();
 
   const onSubmit: SubmitHandler<HTTPRequestInputs> = async (data) => {
     console.log('data', data);
@@ -49,18 +34,6 @@ const HTTPRequestForm = () => {
     console.log(response);
   };
 
-  const createHeader = (name: string) => {
-    append({ name, value: '' });
-  };
-
-  const changeHeaderName = (index: number, name: string) => {
-    update(index, { name, value: fields[index]?.value || '' });
-  };
-
-  const deleteHeader = (index: number) => {
-    remove(index);
-  };
-
   return (
     <FormControl onSubmit={handleSubmit(onSubmit)} component="form" fullWidth>
       <Paper
@@ -74,34 +47,7 @@ const HTTPRequestForm = () => {
           padding: 2,
         }}
       >
-        <Box display="flex">
-          <Select
-            defaultValue={HTTPRequestMethod.GET}
-            sx={{ borderStartEndRadius: 0, borderEndEndRadius: 0 }}
-            {...register('method', { required: true })}
-          >
-            {Object.keys(HTTPRequestMethod).map((method) => (
-              <MenuItem key={method} value={method}>
-                {HTTPRequestMethod[method as keyof typeof HTTPRequestMethod]}
-              </MenuItem>
-            ))}
-          </Select>
-          <TextField
-            variant="outlined"
-            placeholder="URL"
-            fullWidth
-            slotProps={{
-              input: {
-                sx: {
-                  borderColor: 'red',
-                  borderStartStartRadius: 0,
-                  borderEndStartRadius: 0,
-                },
-              },
-            }}
-            {...register('url', { required: true })}
-          />
-        </Box>
+        <UrlControl control={control} />
         <Box>
           <Tabs
             value={activeTab}
@@ -111,55 +57,9 @@ const HTTPRequestForm = () => {
             <Tab label="Body" value={HttpRequestFormTabs.BODY} />
           </Tabs>
           {activeTab === HttpRequestFormTabs.HEADERS ? (
-            <Paper variant="outlined" elevation={1} sx={{ padding: 2 }}>
-              {fields.map(({ name }, index) => (
-                <Box display="flex" key={index}>
-                  <TextField
-                    placeholder="Header"
-                    variant="outlined"
-                    fullWidth
-                    onKeyDown={(e) => {
-                      if (e.key === 'Backspace' && !name) {
-                        e.preventDefault();
-                        deleteHeader(index);
-                      }
-                    }}
-                    value={name}
-                    autoFocus
-                    {...register(`headers.${index}.name`, {
-                      onChange: (e) => changeHeaderName(index, e.target.value),
-                    })}
-                  />
-                  <TextField
-                    placeholder="Value"
-                    variant="outlined"
-                    fullWidth
-                    {...register(`headers.${index}.value`, { required: true })}
-                  />
-                </Box>
-              ))}
-              <Box display="flex">
-                <TextField
-                  placeholder="Header"
-                  fullWidth
-                  onChange={(e) => createHeader(e.target.value)}
-                  value=""
-                  disabled={
-                    fields.length !== 0 && fields[fields.length - 1].name === ''
-                  }
-                />
-                <TextField placeholder="Value" fullWidth disabled />
-              </Box>
-            </Paper>
+            <HeadersControl control={control} />
           ) : activeTab === HttpRequestFormTabs.BODY ? (
-            <TextField
-              variant="outlined"
-              placeholder="Body"
-              fullWidth
-              multiline
-              rows={8}
-              {...register('body')}
-            />
+            <BodyControl control={control} />
           ) : null}
         </Box>
         <Box display="flex" justifyContent="flex-end">

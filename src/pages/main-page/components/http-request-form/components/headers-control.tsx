@@ -25,7 +25,7 @@ const HeadersControl = ({ control }: HeadersControlProps) => {
   };
 
   return (
-    <Paper variant="outlined" elevation={1} sx={{ padding: 2 }}>
+    <Paper variant="outlined" sx={{ padding: 2 }}>
       {fields.map(({ name }, index) => (
         <Box display="flex" key={index}>
           <TextField

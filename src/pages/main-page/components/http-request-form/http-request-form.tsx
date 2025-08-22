@@ -6,7 +6,11 @@ import HeadersControl from './components/headers-control';
 import BodyControl from './components/body-control';
 import UrlControl from './components/url-control';
 
-const HTTPRequestForm = () => {
+type HTTPRequestFormProps = {
+  onResponse: (response: Response) => void;
+};
+
+const HTTPRequestForm = ({ onResponse }: HTTPRequestFormProps) => {
   const [activeTab, setActiveTab] = useState<HttpRequestFormTabs>(
     HttpRequestFormTabs.HEADERS
   );
@@ -14,8 +18,6 @@ const HTTPRequestForm = () => {
   const { control, handleSubmit } = useForm<HTTPRequestInputs>();
 
   const onSubmit: SubmitHandler<HTTPRequestInputs> = async (data) => {
-    console.log('data', data);
-
     const reqHeaders = new Headers();
 
     data.headers.forEach(({ name, value }) => {
@@ -24,14 +26,13 @@ const HTTPRequestForm = () => {
       }
     });
 
-    console.log('headers', Object.fromEntries(reqHeaders.entries()));
-
     const response = await fetch(data.url, {
       method: data.method,
       headers: reqHeaders,
       body: data.body,
     });
-    console.log(response);
+
+    onResponse(response);
   };
 
   return (
@@ -42,7 +43,6 @@ const HTTPRequestForm = () => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          width: '100%',
           gap: 2,
           padding: 2,
         }}

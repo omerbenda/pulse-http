@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { fetch } from '@tauri-apps/plugin-http';
 import { FormControl, Button, Box, Paper, Tab, Tabs } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { HttpRequestFormTabs, HTTPRequestInputs } from './types';
@@ -29,7 +30,7 @@ const HTTPRequestForm = ({ onResponse }: HTTPRequestFormProps) => {
     const response = await fetch(data.url, {
       method: data.method,
       headers: reqHeaders,
-      body: data.body,
+      body: data.body ? data.body : undefined,
     });
 
     onResponse(response);

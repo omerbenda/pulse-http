@@ -8,7 +8,7 @@
     "opener:default",
     {
       "identifier": "http:default",
-      "allow": ["http://*", "https://*"]
+      "allow": ["http://*:*", "https://*:*"]
     }
   ]
 }

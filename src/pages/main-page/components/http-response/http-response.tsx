@@ -29,7 +29,14 @@ const HTTPResponse = ({ response }: HTTPResponseProps) => {
     <Paper
       variant="elevation"
       elevation={1}
-      sx={{ height: '100%', padding: 1 }}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        height: '100%',
+        padding: 2,
+      }}
+      style={{ boxSizing: 'border-box' }}
     >
       <Box>
         <Typography color={response.ok ? 'green' : 'red'}>
@@ -47,7 +54,14 @@ const HTTPResponse = ({ response }: HTTPResponseProps) => {
           disabled={body === null}
         />
       </Tabs>
-      <Paper variant="outlined">
+      <Paper
+        variant="outlined"
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'auto',
+        }}
+      >
         {activeTab === HttpResponseFormTabs.HEADERS ? (
           <Box display="flex" flexDirection="column" padding={2} gap={1}>
             {headers.map(([key, value]) => (

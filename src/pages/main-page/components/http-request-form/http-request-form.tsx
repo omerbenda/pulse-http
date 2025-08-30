@@ -52,10 +52,11 @@ const HTTPRequestForm = ({ onResponse }: HTTPRequestFormProps) => {
           height: '100%',
           gap: 2,
           padding: 2,
+          overflow: 'hidden',
         }}
       >
         <UrlControl control={control} />
-        <Box>
+        <Box display="flex" flexDirection="column" overflow="hidden">
           <Tabs
             value={activeTab}
             onChange={(_, newValue) => setActiveTab(newValue)}
@@ -63,11 +64,13 @@ const HTTPRequestForm = ({ onResponse }: HTTPRequestFormProps) => {
             <Tab label="Headers" value={HttpRequestFormTabs.HEADERS} />
             <Tab label="Body" value={HttpRequestFormTabs.BODY} />
           </Tabs>
-          {activeTab === HttpRequestFormTabs.HEADERS ? (
-            <HeadersControl control={control} />
-          ) : activeTab === HttpRequestFormTabs.BODY ? (
-            <BodyControl control={control} />
-          ) : null}
+          <Box overflow="auto">
+            {activeTab === HttpRequestFormTabs.HEADERS ? (
+              <HeadersControl control={control} />
+            ) : activeTab === HttpRequestFormTabs.BODY ? (
+              <BodyControl control={control} />
+            ) : null}
+          </Box>
         </Box>
         <Box display="flex" justifyContent="flex-end">
           <Button type="submit" variant="contained">

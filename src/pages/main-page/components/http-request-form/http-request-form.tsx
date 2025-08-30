@@ -37,13 +37,19 @@ const HTTPRequestForm = ({ onResponse }: HTTPRequestFormProps) => {
   };
 
   return (
-    <FormControl onSubmit={handleSubmit(onSubmit)} component="form" fullWidth>
+    <FormControl
+      onSubmit={handleSubmit(onSubmit)}
+      component="form"
+      fullWidth
+      sx={{ height: '100%' }}
+    >
       <Paper
         variant="elevation"
         elevation={1}
         sx={{
           display: 'flex',
           flexDirection: 'column',
+          height: '100%',
           gap: 2,
           padding: 2,
         }}

@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Box } from '@mui/material';
-import Container from '@mui/material/Container';
 import HTTPRequestForm from './components/http-request-form/http-request-form';
 import HTTPResponse from './components/http-response/http-response';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
+import { Box, Paper } from '@mui/material';
+import { GoGrabber } from 'react-icons/go';
 
 const MainPage = () => {
   const [response, setResponse] = useState<Response | null>(null);
@@ -12,13 +13,58 @@ const MainPage = () => {
   };
 
   return (
-    <Container>
-      <Box sx={{ width: '100%' }}>
-        <HTTPRequestForm onResponse={onResponse} />
-      </Box>
-      <Box height={10} />
-      {response && <HTTPResponse response={response} />}
-    </Container>
+    <Box width="100%" height="100%">
+      <PanelGroup direction="horizontal" style={{ width: '100%' }}>
+        <Panel defaultSize={25}>
+          <Paper variant="elevation" elevation={1} sx={{ height: '100%' }}>
+            Sidebar
+          </Paper>
+        </Panel>
+        <PanelResizeHandle>
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            bgcolor="lightgray"
+            width="16px"
+            height="100%"
+          >
+            <GoGrabber size={16} />
+          </Box>
+        </PanelResizeHandle>
+        <Panel>
+          <PanelGroup direction="vertical">
+            <Panel>
+              <Box height="100%">
+                <HTTPRequestForm onResponse={onResponse} />
+              </Box>
+            </Panel>
+            {response && (
+              <>
+                <PanelResizeHandle>
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    bgcolor="lightgray"
+                    width="100%"
+                    height="16px"
+                  >
+                    <GoGrabber size={16} style={{ rotate: '90deg' }} />
+                  </Box>
+                </PanelResizeHandle>
+                <Panel>
+                  <Box height="100%">
+                    <HTTPResponse response={response} />
+                  </Box>
+                </Panel>
+              </>
+            )}
+          </PanelGroup>
+        </Panel>
+      </PanelGroup>
+    </Box>
   );
 };
 

@@ -26,7 +26,11 @@ const HTTPResponse = ({ response }: HTTPResponseProps) => {
   }, [response]);
 
   return (
-    <Paper variant="elevation" elevation={1} sx={{ padding: 1 }}>
+    <Paper
+      variant="elevation"
+      elevation={1}
+      sx={{ height: '100%', padding: 1 }}
+    >
       <Box>
         <Typography color={response.ok ? 'green' : 'red'}>
           {response.status} {response.statusText}

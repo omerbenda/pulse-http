@@ -1,6 +1,8 @@
 import { Box, Paper, Tab, Tabs, Typography } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { HttpResponseFormTabs } from './types';
+import BodyControl from './components/body-control';
+import HeadersControl from './components/headers-control';
 
 type HTTPResponseProps = {
   response: Response;
@@ -12,8 +14,8 @@ const HTTPResponse = ({ response }: HTTPResponseProps) => {
   );
   const [body, setBody] = useState<string | null>(null);
 
-  const headers: [string, string][] = useMemo(() => {
-    return Array.from(response.headers.entries());
+  const headers: Record<string, string> = useMemo(() => {
+    return Object.fromEntries(response.headers.entries());
   }, [response]);
 
   const parseResponseBody = async (response: Response): Promise<string> => {
@@ -63,26 +65,9 @@ const HTTPResponse = ({ response }: HTTPResponseProps) => {
         }}
       >
         {activeTab === HttpResponseFormTabs.HEADERS ? (
-          <Box display="flex" flexDirection="column" padding={2} gap={1}>
-            {headers.map(([key, value]) => (
-              <Paper
-                variant="outlined"
-                key={key}
-                sx={{ display: 'flex', gap: 2, padding: 1 }}
-              >
-                <Box sx={{ width: '30%' }}>
-                  <Typography>{key}</Typography>
-                </Box>
-                <Box sx={{ width: '70%' }}>
-                  <Typography>{value}</Typography>
-                </Box>
-              </Paper>
-            ))}
-          </Box>
+          <HeadersControl headers={headers} />
         ) : activeTab === HttpResponseFormTabs.BODY ? (
-          <Box overflow="auto">
-            <Typography>{body}</Typography>
-          </Box>
+          <BodyControl body={body!} />
         ) : null}
       </Paper>
     </Paper>

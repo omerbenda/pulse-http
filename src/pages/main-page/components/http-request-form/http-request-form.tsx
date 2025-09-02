@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useImperativeHandle, useState } from 'react';
 import { fetch } from '@tauri-apps/plugin-http';
 import { FormControl, Button, Box, Paper, Tab, Tabs } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -6,17 +6,24 @@ import { HttpRequestFormTabs, HTTPRequestInputs } from './types';
 import HeadersControl from './components/headers-control';
 import BodyControl from './components/body-control';
 import UrlControl from './components/url-control';
+import { RequestHistoryItem } from '../../types';
 
 type HTTPRequestFormProps = {
+  setHistoryReqItemRef: React.Ref<
+    (requestHistoryItem: RequestHistoryItem) => void
+  >;
   onResponse: (response: Response) => void;
 };
 
-const HTTPRequestForm = ({ onResponse }: HTTPRequestFormProps) => {
+const HTTPRequestForm = ({
+  setHistoryReqItemRef,
+  onResponse,
+}: HTTPRequestFormProps) => {
   const [activeTab, setActiveTab] = useState<HttpRequestFormTabs>(
     HttpRequestFormTabs.HEADERS
   );
 
-  const { control, handleSubmit } = useForm<HTTPRequestInputs>();
+  const { control, setValue, handleSubmit } = useForm<HTTPRequestInputs>();
 
   const onSubmit: SubmitHandler<HTTPRequestInputs> = async (data) => {
     const reqHeaders = new Headers();
@@ -35,6 +42,20 @@ const HTTPRequestForm = ({ onResponse }: HTTPRequestFormProps) => {
 
     onResponse(response);
   };
+
+  const handleRequestHistoryItem = (item: RequestHistoryItem) => {
+    setValue('url', item.url);
+    setValue('method', item.method);
+    setValue('headers', item.headers);
+
+    if (item.body) {
+      setValue('body', item.body);
+    }
+  };
+
+  useImperativeHandle(setHistoryReqItemRef, () => handleRequestHistoryItem, [
+    handleRequestHistoryItem,
+  ]);
 
   return (
     <FormControl

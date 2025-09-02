@@ -24,7 +24,9 @@ const HTTPResponse = ({ response }: HTTPResponseProps) => {
 
   useEffect(() => {
     setBody(null);
-    parseResponseBody(response).then(setBody);
+    if (!response.bodyUsed) {
+      parseResponseBody(response).then(setBody);
+    }
   }, [response]);
 
   return (

@@ -1,29 +1,41 @@
 import { useImperativeHandle, useState } from 'react';
 import { fetch } from '@tauri-apps/plugin-http';
-import { FormControl, Button, Box, Paper, Tab, Tabs } from '@mui/material';
+import {
+  FormControl,
+  Button,
+  Box,
+  Paper,
+  Tab,
+  Tabs,
+  Typography,
+} from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { HttpRequestFormTabs, HTTPRequestInputs } from './types';
+import { HttpRequestFormTab, HTTPRequestInputs } from './types';
 import HeadersControl from './components/headers-control';
 import BodyControl from './components/body-control';
 import UrlControl from './components/url-control';
 import { RequestRecord } from '../../types';
+import { HiArchiveBoxArrowDown } from 'react-icons/hi2';
 
 type HTTPRequestFormProps = {
   setHistoryReqItemRef: React.Ref<(requestRecord: RequestRecord) => void>;
   onRequest: (request: RequestRecord) => void;
   onResponse: (response: Response) => void;
+  onSaveRequest: (request: RequestRecord) => void;
 };
 
 const HTTPRequestForm = ({
   setHistoryReqItemRef,
   onRequest,
   onResponse,
+  onSaveRequest,
 }: HTTPRequestFormProps) => {
-  const [activeTab, setActiveTab] = useState<HttpRequestFormTabs>(
-    HttpRequestFormTabs.HEADERS
+  const [activeTab, setActiveTab] = useState<HttpRequestFormTab>(
+    HttpRequestFormTab.HEADERS
   );
 
-  const { control, setValue, handleSubmit } = useForm<HTTPRequestInputs>();
+  const { control, getValues, setValue, handleSubmit } =
+    useForm<HTTPRequestInputs>();
 
   const onSubmit: SubmitHandler<HTTPRequestInputs> = async (data) => {
     const reqHeaders = new Headers();
@@ -60,6 +72,16 @@ const HTTPRequestForm = ({
     }
   };
 
+  const saveRequest = () => {
+    const data = getValues();
+    onSaveRequest({
+      url: data.url,
+      method: data.method,
+      headers: data.headers,
+      body: data.body,
+    });
+  };
+
   useImperativeHandle(setHistoryReqItemRef, () => handleRequestHistoryItem, [
     handleRequestHistoryItem,
   ]);
@@ -89,20 +111,27 @@ const HTTPRequestForm = ({
             value={activeTab}
             onChange={(_, newValue) => setActiveTab(newValue)}
           >
-            <Tab label="Headers" value={HttpRequestFormTabs.HEADERS} />
-            <Tab label="Body" value={HttpRequestFormTabs.BODY} />
+            <Tab label="Headers" value={HttpRequestFormTab.HEADERS} />
+            <Tab label="Body" value={HttpRequestFormTab.BODY} />
           </Tabs>
           <Box overflow="auto">
-            {activeTab === HttpRequestFormTabs.HEADERS ? (
+            {activeTab === HttpRequestFormTab.HEADERS ? (
               <HeadersControl control={control} />
-            ) : activeTab === HttpRequestFormTabs.BODY ? (
+            ) : activeTab === HttpRequestFormTab.BODY ? (
               <BodyControl control={control} />
             ) : null}
           </Box>
         </Box>
-        <Box display="flex" justifyContent="flex-end">
+        <Box display="flex" justifyContent="flex-end" gap={1}>
+          <Button
+            onClick={saveRequest}
+            variant="contained"
+            sx={{ minWidth: 0 }}
+          >
+            <HiArchiveBoxArrowDown size={20} />
+          </Button>
           <Button type="submit" variant="contained">
-            Send
+            <Typography>Send</Typography>
           </Button>
         </Box>
       </Paper>

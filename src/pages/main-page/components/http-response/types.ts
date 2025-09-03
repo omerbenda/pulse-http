@@ -1,4 +1,4 @@
-export enum HttpResponseFormTabs {
+export enum HttpResponseFormTab {
   HEADERS = 'headers',
   BODY = 'body',
 }

@@ -1,6 +1,6 @@
 import { Box, Paper, Tab, Tabs, Typography } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
-import { HttpResponseFormTabs } from './types';
+import { HttpResponseFormTab } from './types';
 import BodyControl from './components/body-control';
 import HeadersControl from './components/headers-control';
 
@@ -9,8 +9,8 @@ type HTTPResponseProps = {
 };
 
 const HTTPResponse = ({ response }: HTTPResponseProps) => {
-  const [activeTab, setActiveTab] = useState<HttpResponseFormTabs>(
-    HttpResponseFormTabs.HEADERS
+  const [activeTab, setActiveTab] = useState<HttpResponseFormTab>(
+    HttpResponseFormTab.HEADERS
   );
   const [body, setBody] = useState<string | null>(null);
 
@@ -51,10 +51,10 @@ const HTTPResponse = ({ response }: HTTPResponseProps) => {
         value={activeTab}
         onChange={(_, newValue) => setActiveTab(newValue)}
       >
-        <Tab label="Headers" value={HttpResponseFormTabs.HEADERS} />
+        <Tab label="Headers" value={HttpResponseFormTab.HEADERS} />
         <Tab
           label="Body"
-          value={HttpResponseFormTabs.BODY}
+          value={HttpResponseFormTab.BODY}
           disabled={body === null}
         />
       </Tabs>
@@ -66,9 +66,9 @@ const HTTPResponse = ({ response }: HTTPResponseProps) => {
           overflow: 'auto',
         }}
       >
-        {activeTab === HttpResponseFormTabs.HEADERS ? (
+        {activeTab === HttpResponseFormTab.HEADERS ? (
           <HeadersControl headers={headers} />
-        ) : activeTab === HttpResponseFormTabs.BODY ? (
+        ) : activeTab === HttpResponseFormTab.BODY ? (
           <BodyControl body={body!} />
         ) : null}
       </Paper>

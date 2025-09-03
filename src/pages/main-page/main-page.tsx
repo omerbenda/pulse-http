@@ -11,6 +11,7 @@ import { checkRequestRecordsEqual } from './utils';
 const MainPage = () => {
   const [response, setResponse] = useState<Response | null>(null);
   const [requestHistory, setRequestHistory] = useState<RequestRecord[]>([]);
+  const [savedRequests, setSavedRequests] = useState<RequestRecord[]>([]);
 
   const setHistoryReqItemRef =
     useRef<(requestHistoryItem: RequestRecord) => void>(null);
@@ -29,6 +30,10 @@ const MainPage = () => {
     });
   };
 
+  const onSaveRequest = (request: RequestRecord) => {
+    setSavedRequests((curr) => [...curr, request]);
+  };
+
   const onResponse = (response: Response) => {
     setResponse(response);
   };
@@ -44,6 +49,7 @@ const MainPage = () => {
           <Paper variant="elevation" elevation={1} sx={{ height: '100%' }}>
             <Sidebar
               requestHistory={requestHistory}
+              savedRequests={savedRequests}
               onRequestSelected={onHistoryRequestSelected}
             />
           </Paper>
@@ -69,6 +75,7 @@ const MainPage = () => {
                   setHistoryReqItemRef={setHistoryReqItemRef}
                   onRequest={onRequest}
                   onResponse={onResponse}
+                  onSaveRequest={onSaveRequest}
                 />
               </Box>
             </Panel>

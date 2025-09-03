@@ -14,7 +14,7 @@ export type HTTPRequestInputs = {
   body: string;
 };
 
-export enum HttpRequestFormTabs {
+export enum HttpRequestFormTab {
   HEADERS = 'headers',
   BODY = 'body',
 }

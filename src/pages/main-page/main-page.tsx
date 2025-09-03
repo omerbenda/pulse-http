@@ -6,6 +6,7 @@ import { Box, Paper } from '@mui/material';
 import { GoGrabber } from 'react-icons/go';
 import Sidebar from './components/sidebar/sidebar';
 import { RequestRecord } from './types';
+import { checkRequestRecordsEqual } from './utils';
 
 const MainPage = () => {
   const [response, setResponse] = useState<Response | null>(null);
@@ -15,7 +16,17 @@ const MainPage = () => {
     useRef<(requestHistoryItem: RequestRecord) => void>(null);
 
   const onRequest = (request: RequestRecord) => {
-    setRequestHistory((curr) => [...curr, request]);
+    setRequestHistory((curr) => {
+      if (curr.length > 0) {
+        const last = curr[curr.length - 1];
+
+        if (checkRequestRecordsEqual(request, last)) {
+          return curr;
+        }
+      }
+
+      return [...curr, request];
+    });
   };
 
   const onResponse = (response: Response) => {

@@ -1,23 +1,23 @@
 import { Box } from '@mui/material';
-import { RequestHistoryItem } from '../../types';
+import { RequestRecord } from '../../types';
 
 type SidebarProps = {
-  history: RequestHistoryItem[];
-  onRequestSelected: (item: RequestHistoryItem) => void;
+  requestHistory: RequestRecord[];
+  onRequestSelected: (item: RequestRecord) => void;
 };
 
-const Sidebar = ({ history, onRequestSelected }: SidebarProps) => {
+const Sidebar = ({ requestHistory, onRequestSelected }: SidebarProps) => {
   return (
     <Box width="100%" height="100%">
-      {history.map((historyItem, index) => {
+      {requestHistory.map((record, index) => {
         return (
           <Box
-            onClick={() => onRequestSelected(historyItem)}
+            onClick={() => onRequestSelected(record)}
             padding={1}
             borderBottom="1px solid lightgray"
             key={index}
           >
-            {historyItem.method} {historyItem.url}
+            {record.method} {record.url}
           </Box>
         );
       })}

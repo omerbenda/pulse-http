@@ -5,27 +5,24 @@ import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { Box, Paper } from '@mui/material';
 import { GoGrabber } from 'react-icons/go';
 import Sidebar from './components/sidebar/sidebar';
-import { RequestHistoryItem } from './types';
-import { HTTPRequestMethod } from './components/http-request-form/types';
+import { RequestRecord } from './types';
 
 const MainPage = () => {
   const [response, setResponse] = useState<Response | null>(null);
-  const [history, setHistory] = useState<RequestHistoryItem[]>([
-    {
-      url: 'placeholder',
-      method: HTTPRequestMethod.GET,
-      headers: [{ name: 'test', value: 'wow' }],
-    },
-  ]);
+  const [requestHistory, setRequestHistory] = useState<RequestRecord[]>([]);
 
   const setHistoryReqItemRef =
-    useRef<(requestHistoryItem: RequestHistoryItem) => void>(null);
+    useRef<(requestHistoryItem: RequestRecord) => void>(null);
+
+  const onRequest = (request: RequestRecord) => {
+    setRequestHistory((curr) => [...curr, request]);
+  };
 
   const onResponse = (response: Response) => {
     setResponse(response);
   };
 
-  const onHistoryRequestSelected = (item: RequestHistoryItem) => {
+  const onHistoryRequestSelected = (item: RequestRecord) => {
     setHistoryReqItemRef.current?.(item);
   };
 
@@ -35,7 +32,7 @@ const MainPage = () => {
         <Panel defaultSize={25}>
           <Paper variant="elevation" elevation={1} sx={{ height: '100%' }}>
             <Sidebar
-              history={history}
+              requestHistory={requestHistory}
               onRequestSelected={onHistoryRequestSelected}
             />
           </Paper>
@@ -59,6 +56,7 @@ const MainPage = () => {
               <Box height="100%">
                 <HTTPRequestForm
                   setHistoryReqItemRef={setHistoryReqItemRef}
+                  onRequest={onRequest}
                   onResponse={onResponse}
                 />
               </Box>

@@ -6,17 +6,17 @@ import { HttpRequestFormTabs, HTTPRequestInputs } from './types';
 import HeadersControl from './components/headers-control';
 import BodyControl from './components/body-control';
 import UrlControl from './components/url-control';
-import { RequestHistoryItem } from '../../types';
+import { RequestRecord } from '../../types';
 
 type HTTPRequestFormProps = {
-  setHistoryReqItemRef: React.Ref<
-    (requestHistoryItem: RequestHistoryItem) => void
-  >;
+  setHistoryReqItemRef: React.Ref<(requestRecord: RequestRecord) => void>;
+  onRequest: (request: RequestRecord) => void;
   onResponse: (response: Response) => void;
 };
 
 const HTTPRequestForm = ({
   setHistoryReqItemRef,
+  onRequest,
   onResponse,
 }: HTTPRequestFormProps) => {
   const [activeTab, setActiveTab] = useState<HttpRequestFormTabs>(
@@ -34,6 +34,13 @@ const HTTPRequestForm = ({
       }
     });
 
+    onRequest({
+      url: data.url,
+      method: data.method,
+      headers: data.headers,
+      body: data.body,
+    });
+
     const response = await fetch(data.url, {
       method: data.method,
       headers: reqHeaders,
@@ -43,13 +50,13 @@ const HTTPRequestForm = ({
     onResponse(response);
   };
 
-  const handleRequestHistoryItem = (item: RequestHistoryItem) => {
-    setValue('url', item.url);
-    setValue('method', item.method);
-    setValue('headers', item.headers);
+  const handleRequestHistoryItem = (record: RequestRecord) => {
+    setValue('url', record.url);
+    setValue('method', record.method);
+    setValue('headers', record.headers);
 
-    if (item.body) {
-      setValue('body', item.body);
+    if (record.body) {
+      setValue('body', record.body);
     }
   };
 

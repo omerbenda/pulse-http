@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import { RequestRecord } from '../../types';
+import RequestRecordButton from './component/request-record-button';
 
 type SidebarProps = {
   requestHistory: RequestRecord[];
@@ -8,20 +9,25 @@ type SidebarProps = {
 
 const Sidebar = ({ requestHistory, onRequestSelected }: SidebarProps) => {
   return (
-    <Box width="100%" height="100%">
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="start"
+      overflow="auto"
+      width="100%"
+      height="100%"
+    >
       {requestHistory
         .slice()
         .reverse()
         .map((record, index) => {
           return (
-            <Box
+            <RequestRecordButton
+              record={record}
               onClick={() => onRequestSelected(record)}
-              padding={1}
-              borderBottom="1px solid lightgray"
               key={index}
-            >
-              {record.method} {record.url}
-            </Box>
+              fullWidth
+            />
           );
         })}
     </Box>

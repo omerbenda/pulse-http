@@ -27,10 +27,11 @@ const Sidebar = ({
     >
       <Tabs
         value={activeTab}
+        variant="fullWidth"
         onChange={(_, newValue) => setActiveTab(newValue)}
       >
-        <Tab label="History" value={SidebarTab.HISTORY} sx={{ width: '50%' }} />
-        <Tab label="Saved" value={SidebarTab.SAVED} sx={{ width: '50%' }} />
+        <Tab label="History" value={SidebarTab.HISTORY} />
+        <Tab label="Saved" value={SidebarTab.SAVED} />
       </Tabs>
       <Box
         display="flex"

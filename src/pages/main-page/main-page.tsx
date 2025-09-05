@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import HTTPRequestForm from './components/http-request-form/http-request-form';
 import HTTPResponse from './components/http-response/http-response';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
@@ -7,6 +7,7 @@ import { GoGrabber } from 'react-icons/go';
 import Sidebar from './components/sidebar/sidebar';
 import { RequestRecord } from './types';
 import { checkRecordsEqual } from './utils';
+import { savedRecordsStore } from '../../common/stores';
 
 const MainPage = () => {
   const [response, setResponse] = useState<Response | null>(null);
@@ -30,8 +31,10 @@ const MainPage = () => {
     });
   };
 
-  const onSaveRecord = (record: RequestRecord) => {
-    setSavedRecords((curr) => [...curr, record]);
+  const onSaveRecord = async (record: RequestRecord) => {
+    const newSavedRecords = [...savedRecords, record];
+    setSavedRecords(newSavedRecords);
+    await savedRecordsStore.set('data', newSavedRecords);
   };
 
   const onResponse = (response: Response) => {
@@ -43,11 +46,19 @@ const MainPage = () => {
     setResponse(null);
   };
 
-  const deleteSavedRecord = (recordIndex: number) => {
-    setSavedRecords((curr) =>
-      curr.filter((_currRecord, index) => recordIndex !== index)
+  const deleteSavedRecord = async (recordIndex: number) => {
+    const newSavedRecords = savedRecords.filter(
+      (_currRecord, index) => recordIndex !== index
     );
+    setSavedRecords(newSavedRecords);
+    await savedRecordsStore.set('data', newSavedRecords);
   };
+
+  useEffect(() => {
+    savedRecordsStore
+      .get<RequestRecord[]>('data')
+      .then((records) => setSavedRecords(records || []));
+  }, []);
 
   return (
     <Box width="100%" height="100%">

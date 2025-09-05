@@ -1,19 +1,22 @@
 import { Box, Tab, Tabs } from '@mui/material';
 import { RequestRecord } from '../../types';
-import RequestRecordButton from './component/request-record-button';
+import HistoryRecordButton from './component/history-record-button';
 import { SidebarTab } from './types';
 import { useState } from 'react';
+import SavedRecordBox from './component/saved-record-button';
 
 type SidebarProps = {
-  requestHistory: RequestRecord[];
-  savedRequests: RequestRecord[];
-  onRequestSelected: (item: RequestRecord) => void;
+  recordHistory: RequestRecord[];
+  savedRecords: RequestRecord[];
+  onRecordSelected: (item: RequestRecord) => void;
+  onDeleteSavedRecord: (recordIndex: number) => void;
 };
 
 const Sidebar = ({
-  requestHistory,
-  savedRequests,
-  onRequestSelected,
+  recordHistory,
+  savedRecords,
+  onRecordSelected,
+  onDeleteSavedRecord,
 }: SidebarProps) => {
   const [activeTab, setActiveTab] = useState<SidebarTab>(SidebarTab.HISTORY);
 
@@ -33,31 +36,45 @@ const Sidebar = ({
         <Tab label="History" value={SidebarTab.HISTORY} />
         <Tab label="Saved" value={SidebarTab.SAVED} />
       </Tabs>
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="start"
-        overflow="auto"
-        width="100%"
-        height="100%"
-      >
-        {[
-          ...(activeTab === SidebarTab.HISTORY
-            ? requestHistory
-            : savedRequests),
-        ]
-          .reverse()
-          .map((record, index) => {
-            return (
-              <RequestRecordButton
-                record={record}
-                onClick={() => onRequestSelected(record)}
-                key={index}
-                fullWidth
-              />
-            );
-          })}
-      </Box>
+      {activeTab === SidebarTab.HISTORY ? (
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="start"
+          overflow="auto"
+          width="100%"
+          height="100%"
+        >
+          {[...recordHistory].reverse().map((record, index) => (
+            <HistoryRecordButton
+              record={record}
+              onClick={() => onRecordSelected(record)}
+              key={index}
+              fullWidth
+            />
+          ))}
+        </Box>
+      ) : (
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="start"
+          overflow="auto"
+          width="100%"
+          height="100%"
+        >
+          {[...savedRecords].reverse().map((record, index, array) => (
+            <SavedRecordBox
+              record={record}
+              onRecordSelected={() => onRecordSelected(record)}
+              onDeleteRecord={() =>
+                onDeleteSavedRecord(array.length - 1 - index)
+              }
+              key={index}
+            />
+          ))}
+        </Box>
+      )}
     </Box>
   );
 };

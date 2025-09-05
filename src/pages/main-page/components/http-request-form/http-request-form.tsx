@@ -21,14 +21,14 @@ type HTTPRequestFormProps = {
   setHistoryReqItemRef: React.Ref<(requestRecord: RequestRecord) => void>;
   onRequest: (request: RequestRecord) => void;
   onResponse: (response: Response) => void;
-  onSaveRequest: (request: RequestRecord) => void;
+  onSaveRecord: (record: RequestRecord) => void;
 };
 
 const HTTPRequestForm = ({
   setHistoryReqItemRef,
   onRequest,
   onResponse,
-  onSaveRequest,
+  onSaveRecord,
 }: HTTPRequestFormProps) => {
   const [activeTab, setActiveTab] = useState<HttpRequestFormTab>(
     HttpRequestFormTab.HEADERS
@@ -74,7 +74,7 @@ const HTTPRequestForm = ({
 
   const saveRequest = () => {
     const data = getValues();
-    onSaveRequest({
+    onSaveRecord({
       url: data.url,
       method: data.method,
       headers: data.headers,

@@ -27,7 +27,7 @@ const checkHeadersEqual = (
   return true;
 };
 
-export const checkRequestRecordsEqual = (
+export const checkRecordsEqual = (
   record1: RequestRecord,
   record2: RequestRecord
 ) => {

@@ -1,14 +1,14 @@
 import { Box, Button, ButtonProps, Typography } from '@mui/material';
 import { RequestRecord } from '../../../types';
 
-type RequestRecordButtonProps = {
+type HistoryRecordButtonProps = {
   record: RequestRecord;
 } & ButtonProps;
 
-const RequestRecordButton = ({
+const HistoryRecordButton = ({
   record,
   ...buttonProps
-}: RequestRecordButtonProps) => {
+}: HistoryRecordButtonProps) => {
   return (
     <Button {...buttonProps}>
       <Box display="flex" width="100%">
@@ -19,4 +19,4 @@ const RequestRecordButton = ({
   );
 };
 
-export default RequestRecordButton;
+export default HistoryRecordButton;

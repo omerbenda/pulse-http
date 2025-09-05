@@ -6,41 +6,47 @@ import { Box, Paper } from '@mui/material';
 import { GoGrabber } from 'react-icons/go';
 import Sidebar from './components/sidebar/sidebar';
 import { RequestRecord } from './types';
-import { checkRequestRecordsEqual } from './utils';
+import { checkRecordsEqual } from './utils';
 
 const MainPage = () => {
   const [response, setResponse] = useState<Response | null>(null);
-  const [requestHistory, setRequestHistory] = useState<RequestRecord[]>([]);
-  const [savedRequests, setSavedRequests] = useState<RequestRecord[]>([]);
+  const [recordHistory, setRecordHistory] = useState<RequestRecord[]>([]);
+  const [savedRecords, setSavedRecords] = useState<RequestRecord[]>([]);
 
   const setHistoryReqItemRef =
     useRef<(requestHistoryItem: RequestRecord) => void>(null);
 
-  const onRequest = (request: RequestRecord) => {
-    setRequestHistory((curr) => {
+  const onRequest = (record: RequestRecord) => {
+    setRecordHistory((curr) => {
       if (curr.length > 0) {
         const last = curr[curr.length - 1];
 
-        if (checkRequestRecordsEqual(request, last)) {
+        if (checkRecordsEqual(record, last)) {
           return curr;
         }
       }
 
-      return [...curr, request];
+      return [...curr, record];
     });
   };
 
-  const onSaveRequest = (request: RequestRecord) => {
-    setSavedRequests((curr) => [...curr, request]);
+  const onSaveRecord = (record: RequestRecord) => {
+    setSavedRecords((curr) => [...curr, record]);
   };
 
   const onResponse = (response: Response) => {
     setResponse(response);
   };
 
-  const onHistoryRequestSelected = (item: RequestRecord) => {
-    setHistoryReqItemRef.current?.(item);
+  const onHistoryRecordSelected = (record: RequestRecord) => {
+    setHistoryReqItemRef.current?.(record);
     setResponse(null);
+  };
+
+  const deleteSavedRecord = (recordIndex: number) => {
+    setSavedRecords((curr) =>
+      curr.filter((_currRecord, index) => recordIndex !== index)
+    );
   };
 
   return (
@@ -49,9 +55,10 @@ const MainPage = () => {
         <Panel defaultSize={25}>
           <Paper variant="elevation" elevation={1} sx={{ height: '100%' }}>
             <Sidebar
-              requestHistory={requestHistory}
-              savedRequests={savedRequests}
-              onRequestSelected={onHistoryRequestSelected}
+              recordHistory={recordHistory}
+              savedRecords={savedRecords}
+              onRecordSelected={onHistoryRecordSelected}
+              onDeleteSavedRecord={deleteSavedRecord}
             />
           </Paper>
         </Panel>
@@ -76,7 +83,7 @@ const MainPage = () => {
                   setHistoryReqItemRef={setHistoryReqItemRef}
                   onRequest={onRequest}
                   onResponse={onResponse}
-                  onSaveRequest={onSaveRequest}
+                  onSaveRecord={onSaveRecord}
                 />
               </Box>
             </Panel>

@@ -2,7 +2,7 @@ import { Box, Button, Typography } from '@mui/material';
 import { RequestRecord } from '../../../types';
 import { FaTrash } from 'react-icons/fa';
 
-type SavedRecordButtonProps = {
+type SavedRecordButtonBox = {
   record: RequestRecord;
   onRecordSelected: () => void;
   onDeleteRecord: () => void;
@@ -12,16 +12,22 @@ const SavedRecordBox = ({
   record,
   onRecordSelected,
   onDeleteRecord,
-}: SavedRecordButtonProps) => {
+}: SavedRecordButtonBox) => {
   return (
-    <Box display="flex" width="100%">
+    <Box display="flex" width="100%" whiteSpace="nowrap">
       <Button
         variant="text"
         onClick={onRecordSelected}
-        sx={{ display: 'flex', justifyContent: 'start', flexGrow: 1 }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'start',
+          flexGrow: 1,
+        }}
       >
         <Typography px={2}>{record.method}</Typography>
-        <Typography>{record.url}</Typography>
+        <Typography overflow="hidden" textOverflow="ellipsis">
+          {record.url}
+        </Typography>
       </Button>
       <Button
         size="small"

@@ -11,9 +11,11 @@ const HistoryRecordButton = ({
 }: HistoryRecordButtonProps) => {
   return (
     <Button {...buttonProps}>
-      <Box display="flex" width="100%">
+      <Box display="flex" width="100%" whiteSpace="nowrap">
         <Typography px={2}>{record.method}</Typography>
-        <Typography>{record.url}</Typography>
+        <Typography overflow="hidden" textOverflow="ellipsis">
+          {record.url}
+        </Typography>
       </Box>
     </Button>
   );

@@ -40,6 +40,7 @@ const MainPage = () => {
 
   const onHistoryRequestSelected = (item: RequestRecord) => {
     setHistoryReqItemRef.current?.(item);
+    setResponse(null);
   };
 
   return (

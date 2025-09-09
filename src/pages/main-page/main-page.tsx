@@ -1,23 +1,31 @@
-import { useEffect, useRef, useState } from 'react';
-import HTTPRequestForm from './components/http-request-form/http-request-form';
-import HTTPResponse from './components/http-response/http-response';
+import { useEffect, useState } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { Box, Paper } from '@mui/material';
 import { GoGrabber } from 'react-icons/go';
 import Sidebar from './components/sidebar/sidebar';
-import { RequestRecord } from './types';
 import { checkRecordsEqual } from './utils';
 import { savedRecordsStore } from '../../common/stores';
+import { useForm, UseFormReturn } from 'react-hook-form';
+import HTTPDisplay from './components/http-display/http-display';
+import { InterfaceInputs, InterfaceType } from './types';
+import { HTTPInputs } from './components/http-display/components/http-request-form/types';
+import WSDisplay from './components/ws-display/ws-display';
+import { WSInputs } from './components/ws-display/types';
 
 const MainPage = () => {
-  const [response, setResponse] = useState<Response | null>(null);
-  const [recordHistory, setRecordHistory] = useState<RequestRecord[]>([]);
-  const [savedRecords, setSavedRecords] = useState<RequestRecord[]>([]);
+  const [recordHistory, setRecordHistory] = useState<InterfaceInputs[]>([]);
+  const [savedRecords, setSavedRecords] = useState<InterfaceInputs[]>([]);
 
-  const setHistoryReqItemRef =
-    useRef<(requestHistoryItem: RequestRecord) => void>(null);
+  const interfaceForm = useForm<InterfaceInputs>({
+    shouldUnregister: true,
+    defaultValues: {
+      interfaceType: InterfaceType.HTTP,
+    },
+  });
 
-  const onRequest = (record: RequestRecord) => {
+  const interfaceType = interfaceForm.watch('interfaceType');
+
+  const onRecord = (record: InterfaceInputs) => {
     setRecordHistory((curr) => {
       if (curr.length > 0) {
         const last = curr[curr.length - 1];
@@ -31,19 +39,30 @@ const MainPage = () => {
     });
   };
 
-  const onSaveRecord = async (record: RequestRecord) => {
+  const onSaveRecord = async (record: InterfaceInputs) => {
     const newSavedRecords = [...savedRecords, record];
     setSavedRecords(newSavedRecords);
     await savedRecordsStore.set('data', newSavedRecords);
   };
 
-  const onResponse = (response: Response) => {
-    setResponse(response);
-  };
+  const onHistoryRecordSelected = (record: InterfaceInputs) => {
+    interfaceForm.setValue('interfaceType', record.interfaceType);
 
-  const onHistoryRecordSelected = (record: RequestRecord) => {
-    setHistoryReqItemRef.current?.(record);
-    setResponse(null);
+    switch (record.interfaceType) {
+      case InterfaceType.HTTP: {
+        interfaceForm.setValue('url', record.url);
+        interfaceForm.setValue('method', record.method);
+        interfaceForm.setValue('headers', record.headers);
+
+        if (record.body) {
+          interfaceForm.setValue('body', record.body);
+        }
+
+        break;
+      }
+      case InterfaceType.WS: {
+      }
+    }
   };
 
   const deleteSavedRecord = async (recordIndex: number) => {
@@ -56,7 +75,7 @@ const MainPage = () => {
 
   useEffect(() => {
     savedRecordsStore
-      .get<RequestRecord[]>('data')
+      .get<InterfaceInputs[]>('data')
       .then((records) => setSavedRecords(records || []));
   }, []);
 
@@ -87,39 +106,25 @@ const MainPage = () => {
           </Box>
         </PanelResizeHandle>
         <Panel>
-          <PanelGroup direction="vertical">
-            <Panel>
-              <Box height="100%">
-                <HTTPRequestForm
-                  setHistoryReqItemRef={setHistoryReqItemRef}
-                  onRequest={onRequest}
-                  onResponse={onResponse}
-                  onSaveRecord={onSaveRecord}
-                />
-              </Box>
-            </Panel>
-            {response && (
-              <>
-                <PanelResizeHandle>
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    bgcolor="lightgray"
-                    width="100%"
-                    height="16px"
-                  >
-                    <GoGrabber size={16} style={{ rotate: '90deg' }} />
-                  </Box>
-                </PanelResizeHandle>
-                <Panel>
-                  <Box height="100%">
-                    <HTTPResponse response={response} />
-                  </Box>
-                </Panel>
-              </>
-            )}
-          </PanelGroup>
+          {interfaceType === InterfaceType.HTTP ? (
+            <HTTPDisplay
+              interfaceForm={
+                interfaceForm as UseFormReturn<HTTPInputs, any, HTTPInputs>
+              }
+              onRecord={onRecord}
+              onSaveRecord={onSaveRecord}
+            />
+          ) : (
+            interfaceType === InterfaceType.WS && (
+              <WSDisplay
+                interfaceForm={
+                  interfaceForm as UseFormReturn<WSInputs, any, WSInputs>
+                }
+                onRecord={onRecord}
+                onSaveRecord={onSaveRecord}
+              />
+            )
+          )}
         </Panel>
       </PanelGroup>
     </Box>

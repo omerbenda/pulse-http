@@ -1,3 +1,5 @@
+import { InterfaceType } from '../../../../types';
+
 export enum HTTPRequestMethod {
   GET = 'GET',
   POST = 'POST',
@@ -7,14 +9,15 @@ export enum HTTPRequestMethod {
   OPTIONS = 'OPTIONS',
 }
 
-export type HTTPRequestInputs = {
+export enum HttpRequestFormTab {
+  HEADERS = 'headers',
+  BODY = 'body',
+}
+
+export type HTTPInputs = {
+  interfaceType: InterfaceType.HTTP;
   url: string;
   method: HTTPRequestMethod;
   headers: { name: string; value: string }[];
   body: string;
 };
-
-export enum HttpRequestFormTab {
-  HEADERS = 'headers',
-  BODY = 'body',
-}

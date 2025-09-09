@@ -17,7 +17,6 @@ const MainPage = () => {
   const [savedRecords, setSavedRecords] = useState<InterfaceInputs[]>([]);
 
   const interfaceForm = useForm<InterfaceInputs>({
-    shouldUnregister: true,
     defaultValues: {
       interfaceType: InterfaceType.HTTP,
     },
@@ -78,6 +77,13 @@ const MainPage = () => {
       .get<InterfaceInputs[]>('data')
       .then((records) => setSavedRecords(records || []));
   }, []);
+
+  useEffect(() => {
+    const filteredValues = Object.keys(interfaceForm.getValues()).filter(
+      (key) => key !== 'interfaceType'
+    ) as (keyof InterfaceInputs)[];
+    interfaceForm.unregister(filteredValues);
+  }, [interfaceType, interfaceForm.unregister]);
 
   return (
     <Box width="100%" height="100%">

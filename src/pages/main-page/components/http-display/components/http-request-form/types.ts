@@ -14,10 +14,10 @@ export enum HttpRequestFormTab {
   BODY = 'body',
 }
 
-export type HTTPInputs = {
+export interface HTTPInputs {
   interfaceType: InterfaceType.HTTP;
   url: string;
   method: HTTPRequestMethod;
   headers: { name: string; value: string }[];
   body: string;
-};
+}

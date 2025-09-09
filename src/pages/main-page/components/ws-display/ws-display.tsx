@@ -3,6 +3,7 @@ import { InterfaceInputs } from '../../types';
 import { WSInputs } from './types';
 import { Box, FormControl } from '@mui/material';
 import { PanelGroup, Panel } from 'react-resizable-panels';
+import InterfaceTypeControl from '../http-display/components/interface-type-control/interface-type-control';
 
 type WSDisplayProps = {
   interfaceForm: UseFormReturn<WSInputs, any, WSInputs>;
@@ -15,7 +16,7 @@ const WSDisplay = ({
   onRecord,
   onSaveRecord,
 }: WSDisplayProps) => {
-  const { handleSubmit } = interfaceForm;
+  const { control, handleSubmit } = interfaceForm;
 
   const onSubmit: SubmitHandler<WSInputs> = async (data) => {};
 
@@ -28,7 +29,9 @@ const WSDisplay = ({
             component="form"
             fullWidth
             sx={{ height: '100%' }}
-          ></FormControl>
+          >
+            <InterfaceTypeControl control={control} />
+          </FormControl>
         </Box>
       </Panel>
     </PanelGroup>

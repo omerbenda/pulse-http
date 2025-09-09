@@ -1,14 +1,16 @@
 import { Control, Controller } from 'react-hook-form';
-import { HTTPRequestInputs, HTTPRequestMethod } from '../types';
+import { HTTPInputs, HTTPRequestMethod } from '../types';
 import { Box, Select, MenuItem, TextField } from '@mui/material';
+import InterfaceTypeControl from '../../interface-type-control/interface-type-control';
 
 type UrlControlProps = {
-  control: Control<HTTPRequestInputs, any, HTTPRequestInputs>;
+  control: Control<HTTPInputs, any, HTTPInputs>;
 };
 
 const UrlControl = ({ control }: UrlControlProps) => {
   return (
     <Box display="flex">
+      <InterfaceTypeControl control={control} />
       <Controller
         name="method"
         control={control}

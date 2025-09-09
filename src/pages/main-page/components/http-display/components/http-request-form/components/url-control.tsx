@@ -1,16 +1,14 @@
 import { Control, Controller } from 'react-hook-form';
 import { HTTPInputs, HTTPRequestMethod } from '../types';
 import { Box, Select, MenuItem, TextField } from '@mui/material';
-import InterfaceTypeControl from '../../interface-type-control/interface-type-control';
 
 type UrlControlProps = {
-  control: Control<HTTPInputs, any, HTTPInputs>;
+  control: Control<HTTPInputs>;
 };
 
 const UrlControl = ({ control }: UrlControlProps) => {
   return (
-    <Box display="flex">
-      <InterfaceTypeControl control={control} />
+    <Box display="flex" width="100%">
       <Controller
         name="method"
         control={control}
@@ -36,7 +34,6 @@ const UrlControl = ({ control }: UrlControlProps) => {
         slotProps={{
           input: {
             sx: {
-              borderColor: 'red',
               borderStartStartRadius: 0,
               borderEndStartRadius: 0,
             },

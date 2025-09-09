@@ -1,9 +1,9 @@
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
-import { InterfaceInputs } from '../../types';
+import { InterfaceInputs, InterfaceType } from '../../types';
 import { WSInputs } from './types';
-import { Box, FormControl } from '@mui/material';
+import { Box, FormControl, Paper } from '@mui/material';
 import { PanelGroup, Panel } from 'react-resizable-panels';
-import InterfaceTypeControl from '../http-display/components/interface-type-control/interface-type-control';
+import WSConnectionForm from './ws-connection-form/ws-connection-form';
 
 type WSDisplayProps = {
   interfaceForm: UseFormReturn<WSInputs, any, WSInputs>;
@@ -16,9 +16,11 @@ const WSDisplay = ({
   onRecord,
   onSaveRecord,
 }: WSDisplayProps) => {
-  const { control, handleSubmit } = interfaceForm;
+  const { handleSubmit } = interfaceForm;
 
-  const onSubmit: SubmitHandler<WSInputs> = async (data) => {};
+  const onSubmit: SubmitHandler<WSInputs> = async (data) => {
+    onRecord({ interfaceType: InterfaceType.WS, url: data.url });
+  };
 
   return (
     <PanelGroup direction="vertical">
@@ -30,7 +32,12 @@ const WSDisplay = ({
             fullWidth
             sx={{ height: '100%' }}
           >
-            <InterfaceTypeControl control={control} />
+            <Paper>
+              <WSConnectionForm
+                interfaceForm={interfaceForm}
+                onSaveRecord={onSaveRecord}
+              />
+            </Paper>
           </FormControl>
         </Box>
       </Panel>

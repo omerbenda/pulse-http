@@ -1,9 +1,9 @@
 import { Box, Button, Typography } from '@mui/material';
-import { RequestRecord } from '../../../types';
 import { FaTrash } from 'react-icons/fa';
+import { InterfaceInputs } from '../../../types';
 
 type SavedRecordButtonBox = {
-  record: RequestRecord;
+  record: InterfaceInputs;
   onRecordSelected: () => void;
   onDeleteRecord: () => void;
 };

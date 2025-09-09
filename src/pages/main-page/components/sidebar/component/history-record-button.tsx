@@ -1,8 +1,8 @@
 import { Box, Button, ButtonProps, Typography } from '@mui/material';
-import { RequestRecord } from '../../../types';
+import { InterfaceInputs } from '../../../types';
 
 type HistoryRecordButtonProps = {
-  record: RequestRecord;
+  record: InterfaceInputs;
 } & ButtonProps;
 
 const HistoryRecordButton = ({

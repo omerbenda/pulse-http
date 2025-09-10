@@ -1,8 +1,10 @@
-import { Box, Paper } from '@mui/material';
+import { Box, Button, Paper } from '@mui/material';
 import { UseFormReturn } from 'react-hook-form';
 import { WSInputs } from '../types';
 import InterfaceTypeControl from '../../http-display/components/interface-type-control/interface-type-control';
 import UrlControl from './components/url-control';
+import { HiArchiveBoxArrowDown } from 'react-icons/hi2';
+import { InterfaceType } from '../../../types';
 
 type WSConnectionFormProps = {
   interfaceForm: UseFormReturn<WSInputs>;
@@ -13,7 +15,16 @@ const WSConnectionForm = ({
   interfaceForm,
   onSaveRecord,
 }: WSConnectionFormProps) => {
-  const { control } = interfaceForm;
+  const { control, getValues } = interfaceForm;
+
+  const saveData = () => {
+    const data = getValues();
+
+    onSaveRecord({
+      interfaceType: InterfaceType.WS,
+      url: data.url,
+    });
+  };
 
   return (
     <Paper
@@ -33,6 +44,11 @@ const WSConnectionForm = ({
         <Box flexGrow={1}>
           <UrlControl control={control} />
         </Box>
+      </Box>
+      <Box display="flex" justifyContent="flex-end">
+        <Button onClick={saveData} variant="contained" sx={{ minWidth: 0 }}>
+          <HiArchiveBoxArrowDown size={20} />
+        </Button>
       </Box>
     </Paper>
   );

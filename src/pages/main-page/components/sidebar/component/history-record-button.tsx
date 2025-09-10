@@ -1,5 +1,5 @@
 import { Box, Button, ButtonProps, Typography } from '@mui/material';
-import { InterfaceInputs } from '../../../types';
+import { InterfaceInputs, InterfaceType } from '../../../types';
 
 type HistoryRecordButtonProps = {
   record: InterfaceInputs;
@@ -12,7 +12,10 @@ const HistoryRecordButton = ({
   return (
     <Button {...buttonProps}>
       <Box display="flex" width="100%" whiteSpace="nowrap">
-        <Typography px={2}>{record.method}</Typography>
+        <Typography px={1}>{record.interfaceType}</Typography>
+        {record.interfaceType === InterfaceType.HTTP && (
+          <Typography pr={2}>{record.method}</Typography>
+        )}
         <Typography overflow="hidden" textOverflow="ellipsis">
           {record.url}
         </Typography>

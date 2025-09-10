@@ -8,7 +8,10 @@ import { savedRecordsStore } from '../../common/stores';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import HTTPDisplay from './components/http-display/http-display';
 import { InterfaceInputs, InterfaceType } from './types';
-import { HTTPInputs } from './components/http-display/components/http-request-form/types';
+import {
+  HTTPInputs,
+  HTTPRequestMethod,
+} from './components/http-display/components/http-request-form/types';
 import WSDisplay from './components/ws-display/ws-display';
 import { WSInputs } from './components/ws-display/types';
 
@@ -60,6 +63,7 @@ const MainPage = () => {
         break;
       }
       case InterfaceType.WS: {
+        break;
       }
     }
   };
@@ -83,7 +87,18 @@ const MainPage = () => {
       (key) => key !== 'interfaceType'
     ) as (keyof InterfaceInputs)[];
     interfaceForm.unregister(filteredValues);
-  }, [interfaceType, interfaceForm.unregister]);
+
+    switch (interfaceType) {
+      case InterfaceType.HTTP: {
+        interfaceForm.setValue('method', HTTPRequestMethod.GET);
+
+        break;
+      }
+      case InterfaceType.WS: {
+        break;
+      }
+    }
+  }, [interfaceType, interfaceForm.unregister, interfaceForm.setValue]);
 
   return (
     <Box width="100%" height="100%">

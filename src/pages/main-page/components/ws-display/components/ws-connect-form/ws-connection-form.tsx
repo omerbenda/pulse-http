@@ -1,17 +1,17 @@
-import { Box, Button, Paper } from '@mui/material';
+import { Box, Button, Paper, Typography } from '@mui/material';
 import { UseFormReturn } from 'react-hook-form';
-import { WSInputs } from '../types';
-import InterfaceTypeControl from '../../http-display/components/interface-type-control/interface-type-control';
+import { WSInputs } from '../../types';
+import InterfaceTypeControl from '../../../http-display/components/interface-type-control/interface-type-control';
 import UrlControl from './components/url-control';
 import { HiArchiveBoxArrowDown } from 'react-icons/hi2';
-import { InterfaceType } from '../../../types';
+import { InterfaceType } from '../../../../types';
 
 type WSConnectionFormProps = {
   interfaceForm: UseFormReturn<WSInputs>;
   onSaveRecord: (record: WSInputs) => void;
 };
 
-const WSConnectionForm = ({
+const WSConnectForm = ({
   interfaceForm,
   onSaveRecord,
 }: WSConnectionFormProps) => {
@@ -45,13 +45,16 @@ const WSConnectionForm = ({
           <UrlControl control={control} />
         </Box>
       </Box>
-      <Box display="flex" justifyContent="flex-end">
+      <Box display="flex" justifyContent="flex-end" gap={1}>
         <Button onClick={saveData} variant="contained" sx={{ minWidth: 0 }}>
           <HiArchiveBoxArrowDown size={20} />
+        </Button>
+        <Button type="submit" variant="contained">
+          <Typography>Connect</Typography>
         </Button>
       </Box>
     </Paper>
   );
 };
 
-export default WSConnectionForm;
+export default WSConnectForm;

@@ -1,9 +1,9 @@
 import { Control } from 'react-hook-form';
-import { HTTPRequestInputs } from '../types';
+import { HTTPInputs } from '../types';
 import { TextField } from '@mui/material';
 
 type BodyControlProps = {
-  control: Control<HTTPRequestInputs, any, HTTPRequestInputs>;
+  control: Control<HTTPInputs, any, HTTPInputs>;
 };
 
 const BodyControl = ({ control }: BodyControlProps) => {

@@ -1,5 +1,5 @@
 import { Control } from 'react-hook-form';
-import { WSInputs } from '../../types';
+import { WSInputs } from '../../../types';
 import { Box, TextField } from '@mui/material';
 
 type UrlControlProps = {

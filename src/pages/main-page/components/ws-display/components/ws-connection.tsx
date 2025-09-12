@@ -31,11 +31,12 @@ const WSConnection = ({ connection }: WSConnectionProps) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
+        overflow: 'hidden',
         width: '100%',
         height: '100%',
       }}
     >
-      <Box flexGrow={1}>
+      <Box flexGrow={1} overflow="auto">
         {messages.map((msg) => (
           <Typography>{msg}</Typography>
         ))}

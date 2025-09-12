@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, FormControl, Paper } from '@mui/material';
+import { Box, FormControl } from '@mui/material';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { GoGrabber } from 'react-icons/go';
 import { InterfaceInputs, InterfaceType } from '../../types';
@@ -46,12 +46,10 @@ const WSDisplay = ({
             fullWidth
             sx={{ height: '100%' }}
           >
-            <Paper>
-              <WSConnectForm
-                interfaceForm={interfaceForm}
-                onSaveRecord={onSaveRecord}
-              />
-            </Paper>
+            <WSConnectForm
+              interfaceForm={interfaceForm}
+              onSaveRecord={onSaveRecord}
+            />
           </FormControl>
         </Box>
       </Panel>

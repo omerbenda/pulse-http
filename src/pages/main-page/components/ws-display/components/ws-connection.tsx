@@ -6,7 +6,7 @@ type WSConnectionProps = {
 };
 
 const WSConnection = ({ connection }: WSConnectionProps) => {
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
 
   const messageBoxRef = useRef<HTMLInputElement>(null);
 
@@ -17,13 +17,16 @@ const WSConnection = ({ connection }: WSConnectionProps) => {
   };
 
   const onMessage = (e: MessageEvent<any>) => {
-    console.log(e.data);
     setMessages((curr) => [...curr, e.data]);
   };
 
   useEffect(() => {
     setMessages([]);
     connection.addEventListener('message', onMessage);
+
+    return () => {
+      connection.removeEventListener('message', onMessage);
+    };
   }, [connection]);
 
   return (

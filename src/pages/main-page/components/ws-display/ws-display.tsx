@@ -6,7 +6,7 @@ import { InterfaceInputs, InterfaceType } from '../../types';
 import { WSInputs } from './types';
 import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
 import WSConnectForm from './components/ws-connect-form/ws-connection-form';
-import WSConnection from './components/ws-connection';
+import WSConnection from './components/ws-connection/ws-connection';
 
 type WSDisplayProps = {
   interfaceForm: UseFormReturn<WSInputs, any, WSInputs>;

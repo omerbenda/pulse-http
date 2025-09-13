@@ -1,9 +1,11 @@
-import { Box, Button, Typography } from '@mui/material';
-import { RequestRecord } from '../../../types';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 import { FaTrash } from 'react-icons/fa';
+import { InterfaceInputs, InterfaceType } from '../../../types';
+import { MdHttp } from 'react-icons/md';
+import WebsocketIcon from '../../../../../assets/icons/websocket.svg?react';
 
 type SavedRecordButtonBox = {
-  record: RequestRecord;
+  record: InterfaceInputs;
   onRecordSelected: () => void;
   onDeleteRecord: () => void;
 };
@@ -13,6 +15,8 @@ const SavedRecordBox = ({
   onRecordSelected,
   onDeleteRecord,
 }: SavedRecordButtonBox) => {
+  const theme = useTheme();
+
   return (
     <Box display="flex" width="100%" whiteSpace="nowrap">
       <Button
@@ -24,7 +28,22 @@ const SavedRecordBox = ({
           flexGrow: 1,
         }}
       >
-        <Typography px={2}>{record.method}</Typography>
+        <Box display="flex" alignItems="center" px={1} height={24}>
+          {record.interfaceType === InterfaceType.HTTP ? (
+            <MdHttp size={32} />
+          ) : (
+            record.interfaceType === InterfaceType.WS && (
+              <WebsocketIcon
+                fill={theme.palette.primary.main}
+                width={24}
+                height={24}
+              />
+            )
+          )}
+        </Box>
+        {record.interfaceType === InterfaceType.HTTP && (
+          <Typography pr={1}>{record.method}</Typography>
+        )}
         <Typography overflow="hidden" textOverflow="ellipsis">
           {record.url}
         </Typography>

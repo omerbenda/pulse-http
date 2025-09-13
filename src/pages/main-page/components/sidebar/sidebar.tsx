@@ -1,14 +1,14 @@
 import { Box, Tab, Tabs } from '@mui/material';
-import { RequestRecord } from '../../types';
 import HistoryRecordButton from './component/history-record-button';
 import { SidebarTab } from './types';
 import { useState } from 'react';
 import SavedRecordBox from './component/saved-record-button';
+import { InterfaceInputs } from '../../types';
 
 type SidebarProps = {
-  recordHistory: RequestRecord[];
-  savedRecords: RequestRecord[];
-  onRecordSelected: (item: RequestRecord) => void;
+  recordHistory: InterfaceInputs[];
+  savedRecords: InterfaceInputs[];
+  onRecordSelected: (item: InterfaceInputs) => void;
   onDeleteSavedRecord: (recordIndex: number) => void;
 };
 

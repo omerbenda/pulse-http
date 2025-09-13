@@ -1,18 +1,37 @@
-import { Box, Button, ButtonProps, Typography } from '@mui/material';
-import { RequestRecord } from '../../../types';
+import { Box, Button, ButtonProps, Typography, useTheme } from '@mui/material';
+import { InterfaceInputs, InterfaceType } from '../../../types';
+import WebsocketIcon from '../../../../../assets/icons/websocket.svg?react';
+import { MdHttp } from 'react-icons/md';
 
 type HistoryRecordButtonProps = {
-  record: RequestRecord;
+  record: InterfaceInputs;
 } & ButtonProps;
 
 const HistoryRecordButton = ({
   record,
   ...buttonProps
 }: HistoryRecordButtonProps) => {
+  const theme = useTheme();
+
   return (
     <Button {...buttonProps}>
       <Box display="flex" width="100%" whiteSpace="nowrap">
-        <Typography px={2}>{record.method}</Typography>
+        <Box display="flex" alignItems="center" px={1} height={24}>
+          {record.interfaceType === InterfaceType.HTTP ? (
+            <MdHttp size={32} />
+          ) : (
+            record.interfaceType === InterfaceType.WS && (
+              <WebsocketIcon
+                fill={theme.palette.primary.main}
+                width={24}
+                height={24}
+              />
+            )
+          )}
+        </Box>
+        {record.interfaceType === InterfaceType.HTTP && (
+          <Typography pr={1}>{record.method}</Typography>
+        )}
         <Typography overflow="hidden" textOverflow="ellipsis">
           {record.url}
         </Typography>

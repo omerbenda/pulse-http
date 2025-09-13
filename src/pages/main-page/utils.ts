@@ -1,4 +1,6 @@
-import { RequestRecord } from './types';
+import { HTTPInputs } from './components/http-display/components/http-request-form/types';
+import { WSInputs } from './components/ws-display/types';
+import { InterfaceInputs, InterfaceType } from './types';
 
 const checkHeadersEqual = (
   headers1: { name: string; value: string }[],
@@ -28,13 +30,30 @@ const checkHeadersEqual = (
 };
 
 export const checkRecordsEqual = (
-  record1: RequestRecord,
-  record2: RequestRecord
-) => {
-  return (
-    record1.url === record2.url &&
-    record1.method === record2.method &&
-    record1.body === record2.body &&
-    checkHeadersEqual(record1.headers, record2.headers)
-  );
+  record1: InterfaceInputs,
+  record2: InterfaceInputs
+): boolean => {
+  if (record1.interfaceType !== record2.interfaceType) {
+    return false;
+  }
+
+  switch (record1.interfaceType) {
+    case InterfaceType.HTTP: {
+      const record2Cast = record2 as HTTPInputs;
+
+      return (
+        record1.url === record2Cast.url &&
+        record1.method === record2Cast.method &&
+        record1.body === record2Cast.body &&
+        checkHeadersEqual(record1.headers, record2Cast.headers)
+      );
+    }
+    case InterfaceType.WS: {
+      const record2Cast = record2 as WSInputs;
+
+      return record1.url === record2Cast.url;
+    }
+  }
+
+  return false;
 };

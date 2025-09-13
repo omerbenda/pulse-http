@@ -63,6 +63,8 @@ const MainPage = () => {
         break;
       }
       case InterfaceType.WS: {
+        interfaceForm.setValue('url', record.url);
+
         break;
       }
     }

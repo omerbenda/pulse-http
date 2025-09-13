@@ -54,7 +54,7 @@ const HTTPRequestForm = ({
           <UrlControl control={control} />
         </Box>
       </Box>
-      <Box display="flex" flexDirection="column" overflow="hidden">
+      <Box display="flex" flexGrow={1} flexDirection="column" overflow="hidden">
         <Tabs
           value={activeTab}
           onChange={(_, newValue) => setActiveTab(newValue)}
@@ -62,7 +62,7 @@ const HTTPRequestForm = ({
           <Tab label="Headers" value={HttpRequestFormTab.HEADERS} />
           <Tab label="Body" value={HttpRequestFormTab.BODY} />
         </Tabs>
-        <Box overflow="auto">
+        <Box overflow="auto" flexGrow={1}>
           {activeTab === HttpRequestFormTab.HEADERS ? (
             <HeadersControl control={control} />
           ) : activeTab === HttpRequestFormTab.BODY ? (

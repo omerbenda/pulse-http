@@ -1,10 +1,10 @@
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { UseFormReturn } from 'react-hook-form';
 import { WSInputs } from '../../types';
-import InterfaceTypeControl from '../../../http-display/components/interface-type-control/interface-type-control';
 import UrlControl from './components/url-control';
 import { HiArchiveBoxArrowDown } from 'react-icons/hi2';
 import { InterfaceType } from '../../../../types';
+import InterfaceTypeControl from '../../../interface-type-control/interface-type-control';
 
 type WSConnectionFormProps = {
   interfaceForm: UseFormReturn<WSInputs>;
@@ -39,7 +39,7 @@ const WSConnectForm = ({
         overflow: 'hidden',
       }}
     >
-      <Box display="flex">
+      <Box display="flex" gap={1}>
         <InterfaceTypeControl control={control} />
         <Box flexGrow={1}>
           <UrlControl control={control} />

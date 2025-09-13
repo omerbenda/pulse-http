@@ -7,7 +7,7 @@ import BodyControl from './components/body-control';
 import UrlControl from './components/url-control';
 import { HiArchiveBoxArrowDown } from 'react-icons/hi2';
 import { InterfaceType } from '../../../../types';
-import InterfaceTypeControl from '../interface-type-control/interface-type-control';
+import InterfaceTypeControl from '../../../interface-type-control/interface-type-control';
 
 type HTTPRequestFormProps = {
   interfaceForm: UseFormReturn<HTTPInputs>;
@@ -48,7 +48,7 @@ const HTTPRequestForm = ({
         overflow: 'hidden',
       }}
     >
-      <Box display="flex">
+      <Box display="flex" gap={1}>
         <InterfaceTypeControl control={control} />
         <Box flexGrow={1}>
           <UrlControl control={control} />

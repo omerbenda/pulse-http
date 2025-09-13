@@ -26,7 +26,7 @@ const HTTPDisplay = ({
   const onSubmit: SubmitHandler<HTTPInputs> = async (data) => {
     const reqHeaders = new Headers();
 
-    data.headers.forEach(({ name, value }) => {
+    data.headers?.forEach(({ name, value }) => {
       if (name && value) {
         reqHeaders.append(name, value);
       }

@@ -13,7 +13,6 @@ const BodyControl = ({ control }: BodyControlProps) => {
       control={control}
       render={({ field }) => (
         <Editor
-          height="100%"
           value={field.value}
           onChange={(value) => field.onChange(value)}
         />

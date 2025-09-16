@@ -13,12 +13,18 @@ import WSDisplay from './components/ws-display/ws-display';
 import { WSInputs } from './components/ws-display/types';
 import useInterfaceStore from '../../common/state-stores/interface-store';
 import { InterfaceType } from '../../common/types/api-interface-types';
+import { useShallow } from 'zustand/shallow';
 
 const MainPage = () => {
   const [recordHistory, setRecordHistory] = useState<InterfaceInputs[]>([]);
   const [savedRecords, setSavedRecords] = useState<InterfaceInputs[]>([]);
 
-  const interfaceType = useInterfaceStore((state) => state.interfaceType);
+  const { interfaceType, setInterfaceType } = useInterfaceStore(
+    useShallow((state) => ({
+      interfaceType: state.interfaceType,
+      setInterfaceType: state.setInterfaceType,
+    }))
+  );
 
   const interfaceForm = useForm<InterfaceInputs>({
     shouldUnregister: true,
@@ -45,7 +51,7 @@ const MainPage = () => {
   };
 
   const onRecordSelected = (record: InterfaceInputs) => {
-    interfaceForm.setValue('interfaceType', record.interfaceType);
+    setInterfaceType(record.interfaceType);
 
     switch (record.interfaceType) {
       case InterfaceType.HTTP: {
@@ -74,6 +80,10 @@ const MainPage = () => {
     setSavedRecords(newSavedRecords);
     await savedRecordsStore.set('data', newSavedRecords);
   };
+
+  useEffect(() => {
+    interfaceForm.setValue('interfaceType', interfaceType);
+  }, [interfaceType]);
 
   useEffect(() => {
     savedRecordsStore

@@ -1,4 +1,4 @@
-import { InterfaceType } from '../../types';
+import { InterfaceType } from '../../../../common/types/api-interface-types';
 
 export interface WSInputs {
   interfaceType: InterfaceType.WS;

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Box, FormControl } from '@mui/material';
+import { Box } from '@mui/material';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { GoGrabber } from 'react-icons/go';
-import { InterfaceInputs, InterfaceType } from '../../types';
+import { InterfaceInputs } from '../../types';
 import { WSInputs } from './types';
 import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
 import WSConnectForm from './components/ws-connect-form/ws-connection-form';
 import WSConnection from './components/ws-connection/ws-connection';
+import { InterfaceType } from '../../../../common/types/api-interface-types';
 
 type WSDisplayProps = {
   interfaceForm: UseFormReturn<WSInputs, any, WSInputs>;
@@ -40,17 +41,19 @@ const WSDisplay = ({
     <PanelGroup direction="vertical">
       <Panel>
         <Box height="100%">
-          <FormControl
+          <Box
             onSubmit={handleSubmit(onSubmit)}
             component="form"
-            fullWidth
-            sx={{ height: '100%' }}
+            display="flex"
+            flexDirection="column"
+            width="100%"
+            height="100%"
           >
             <WSConnectForm
               interfaceForm={interfaceForm}
               onSaveRecord={onSaveRecord}
             />
-          </FormControl>
+          </Box>
         </Box>
       </Panel>
       {connection && (

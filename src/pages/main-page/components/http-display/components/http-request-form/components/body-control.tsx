@@ -1,6 +1,6 @@
-import { Control } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 import { HTTPInputs } from '../types';
-import { TextField } from '@mui/material';
+import Editor from '@monaco-editor/react';
 
 type BodyControlProps = {
   control: Control<HTTPInputs, any, HTTPInputs>;
@@ -8,13 +8,15 @@ type BodyControlProps = {
 
 const BodyControl = ({ control }: BodyControlProps) => {
   return (
-    <TextField
-      variant="outlined"
-      fullWidth
-      multiline
-      rows={4}
-      placeholder="Request body"
-      {...control.register('body')}
+    <Controller
+      name="body"
+      control={control}
+      render={({ field }) => (
+        <Editor
+          value={field.value}
+          onChange={(value) => field.onChange(value)}
+        />
+      )}
     />
   );
 };

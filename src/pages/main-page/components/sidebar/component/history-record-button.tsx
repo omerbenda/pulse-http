@@ -1,7 +1,8 @@
 import { Box, Button, ButtonProps, Typography, useTheme } from '@mui/material';
-import { InterfaceInputs, InterfaceType } from '../../../types';
+import { InterfaceInputs } from '../../../types';
 import WebsocketIcon from '../../../../../assets/icons/websocket.svg?react';
 import { MdHttp } from 'react-icons/md';
+import { InterfaceType } from '../../../../../common/types/api-interface-types';
 
 type HistoryRecordButtonProps = {
   record: InterfaceInputs;

@@ -1,4 +1,4 @@
-import { InterfaceType } from '../../../../types';
+import { InterfaceType } from '../../../../../../common/types/api-interface-types';
 
 export enum HTTPRequestMethod {
   GET = 'GET',

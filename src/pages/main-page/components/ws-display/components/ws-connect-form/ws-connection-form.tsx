@@ -3,8 +3,8 @@ import { UseFormReturn } from 'react-hook-form';
 import { WSInputs } from '../../types';
 import UrlControl from './components/url-control';
 import { HiArchiveBoxArrowDown } from 'react-icons/hi2';
-import { InterfaceType } from '../../../../types';
-import InterfaceTypeControl from '../../../interface-type-control/interface-type-control';
+import InterfaceTypeSelect from '../../../interface-type-select/interface-type-select';
+import { InterfaceType } from '../../../../../../common/types/api-interface-types';
 
 type WSConnectionFormProps = {
   interfaceForm: UseFormReturn<WSInputs>;
@@ -40,7 +40,7 @@ const WSConnectForm = ({
       }}
     >
       <Box display="flex" gap={1}>
-        <InterfaceTypeControl control={control} />
+        <InterfaceTypeSelect />
         <Box flexGrow={1}>
           <UrlControl control={control} />
         </Box>

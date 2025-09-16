@@ -6,8 +6,8 @@ import HeadersControl from './components/headers-control';
 import BodyControl from './components/body-control';
 import UrlControl from './components/url-control';
 import { HiArchiveBoxArrowDown } from 'react-icons/hi2';
-import { InterfaceType } from '../../../../types';
-import InterfaceTypeControl from '../../../interface-type-control/interface-type-control';
+import InterfaceTypeSelect from '../../../interface-type-select/interface-type-select';
+import { InterfaceType } from '../../../../../../common/types/api-interface-types';
 
 type HTTPRequestFormProps = {
   interfaceForm: UseFormReturn<HTTPInputs>;
@@ -49,12 +49,12 @@ const HTTPRequestForm = ({
       }}
     >
       <Box display="flex" gap={1}>
-        <InterfaceTypeControl control={control} />
+        <InterfaceTypeSelect />
         <Box flexGrow={1}>
           <UrlControl control={control} />
         </Box>
       </Box>
-      <Box display="flex" flexDirection="column" overflow="hidden">
+      <Box display="flex" flexGrow={1} flexDirection="column" overflow="hidden">
         <Tabs
           value={activeTab}
           onChange={(_, newValue) => setActiveTab(newValue)}
@@ -62,7 +62,7 @@ const HTTPRequestForm = ({
           <Tab label="Headers" value={HttpRequestFormTab.HEADERS} />
           <Tab label="Body" value={HttpRequestFormTab.BODY} />
         </Tabs>
-        <Box overflow="auto">
+        <Box overflow="auto" flexGrow={1}>
           {activeTab === HttpRequestFormTab.HEADERS ? (
             <HeadersControl control={control} />
           ) : activeTab === HttpRequestFormTab.BODY ? (

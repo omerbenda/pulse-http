@@ -1,6 +1,6 @@
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { HTTPInputs } from './components/http-request-form/types';
-import { Box, FormControl } from '@mui/material';
+import { Box } from '@mui/material';
 import { GoGrabber } from 'react-icons/go';
 import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
 import HTTPRequestForm from './components/http-request-form/http-request-form';
@@ -54,17 +54,19 @@ const HTTPDisplay = ({
     <PanelGroup direction="vertical">
       <Panel>
         <Box height="100%">
-          <FormControl
+          <Box
             onSubmit={handleSubmit(onSubmit)}
             component="form"
-            fullWidth
-            sx={{ height: '100%' }}
+            display="flex"
+            flexDirection="column"
+            width="100%"
+            height="100%"
           >
             <HTTPRequestForm
               interfaceForm={interfaceForm}
               onSaveRecord={onSaveRecord}
             />
-          </FormControl>
+          </Box>
         </Box>
       </Panel>
       {response && (

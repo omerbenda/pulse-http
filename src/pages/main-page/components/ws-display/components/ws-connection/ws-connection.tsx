@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, Paper, TextField } from '@mui/material';
+import { Box, Button, Paper, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import MessageBox from './components/message-box';
 import { useForm } from 'react-hook-form';
@@ -45,10 +45,12 @@ const WSConnection = ({ connection }: WSConnectionProps) => {
           <MessageBox message={msg} key={index} />
         ))}
       </Box>
-      <FormControl
+      <Box
         onSubmit={handleSubmit(submitMessage)}
         component="form"
-        sx={{ display: 'flex', flexDirection: 'row' }}
+        display="flex"
+        flexDirection="row"
+        width="100%"
       >
         <Box flexGrow={1}>
           <TextField variant="outlined" fullWidth {...register('content')} />
@@ -56,7 +58,7 @@ const WSConnection = ({ connection }: WSConnectionProps) => {
         <Button type="submit" variant="contained">
           Send
         </Button>
-      </FormControl>
+      </Box>
     </Paper>
   );
 };

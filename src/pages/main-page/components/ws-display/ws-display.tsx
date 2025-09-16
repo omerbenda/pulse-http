@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, FormControl } from '@mui/material';
+import { Box } from '@mui/material';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { GoGrabber } from 'react-icons/go';
 import { InterfaceInputs } from '../../types';
@@ -41,17 +41,19 @@ const WSDisplay = ({
     <PanelGroup direction="vertical">
       <Panel>
         <Box height="100%">
-          <FormControl
+          <Box
             onSubmit={handleSubmit(onSubmit)}
             component="form"
-            fullWidth
-            sx={{ height: '100%' }}
+            display="flex"
+            flexDirection="column"
+            width="100%"
+            height="100%"
           >
             <WSConnectForm
               interfaceForm={interfaceForm}
               onSaveRecord={onSaveRecord}
             />
-          </FormControl>
+          </Box>
         </Box>
       </Panel>
       {connection && (

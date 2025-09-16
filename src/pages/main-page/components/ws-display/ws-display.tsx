@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { Box, FormControl } from '@mui/material';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { GoGrabber } from 'react-icons/go';
-import { InterfaceInputs, InterfaceType } from '../../types';
+import { InterfaceInputs } from '../../types';
 import { WSInputs } from './types';
 import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
 import WSConnectForm from './components/ws-connect-form/ws-connection-form';
 import WSConnection from './components/ws-connection/ws-connection';
+import { InterfaceType } from '../../../../common/types/api-interface-types';
 
 type WSDisplayProps = {
   interfaceForm: UseFormReturn<WSInputs, any, WSInputs>;

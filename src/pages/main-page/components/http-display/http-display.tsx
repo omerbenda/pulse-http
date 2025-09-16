@@ -6,7 +6,8 @@ import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
 import HTTPRequestForm from './components/http-request-form/http-request-form';
 import HTTPResponse from './components/http-response/http-response';
 import { useState } from 'react';
-import { InterfaceInputs, InterfaceType } from '../../types';
+import { InterfaceInputs } from '../../types';
+import { InterfaceType } from '../../../../common/types/api-interface-types';
 
 type HTTPDisplayProps = {
   interfaceForm: UseFormReturn<HTTPInputs, any, HTTPInputs>;

@@ -7,25 +7,22 @@ import { checkRecordsEqual } from './utils';
 import { savedRecordsStore } from '../../common/stores';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import HTTPDisplay from './components/http-display/http-display';
-import { InterfaceInputs, InterfaceType } from './types';
-import {
-  HTTPInputs,
-  HTTPRequestMethod,
-} from './components/http-display/components/http-request-form/types';
+import { InterfaceInputs } from './types';
+import { HTTPInputs } from './components/http-display/components/http-request-form/types';
 import WSDisplay from './components/ws-display/ws-display';
 import { WSInputs } from './components/ws-display/types';
+import useInterfaceStore from '../../common/state-stores/interface-store';
+import { InterfaceType } from '../../common/types/api-interface-types';
 
 const MainPage = () => {
   const [recordHistory, setRecordHistory] = useState<InterfaceInputs[]>([]);
   const [savedRecords, setSavedRecords] = useState<InterfaceInputs[]>([]);
 
-  const interfaceForm = useForm<InterfaceInputs>({
-    defaultValues: {
-      interfaceType: InterfaceType.HTTP,
-    },
-  });
+  const interfaceType = useInterfaceStore((state) => state.interfaceType);
 
-  const interfaceType = interfaceForm.watch('interfaceType');
+  const interfaceForm = useForm<InterfaceInputs>({
+    shouldUnregister: true,
+  });
 
   const onRecord = (record: InterfaceInputs) => {
     setRecordHistory((curr) => {
@@ -47,7 +44,7 @@ const MainPage = () => {
     await savedRecordsStore.set('data', newSavedRecords);
   };
 
-  const onHistoryRecordSelected = (record: InterfaceInputs) => {
+  const onRecordSelected = (record: InterfaceInputs) => {
     interfaceForm.setValue('interfaceType', record.interfaceType);
 
     switch (record.interfaceType) {
@@ -84,24 +81,6 @@ const MainPage = () => {
       .then((records) => setSavedRecords(records || []));
   }, []);
 
-  useEffect(() => {
-    const filteredValues = Object.keys(interfaceForm.getValues()).filter(
-      (key) => key !== 'interfaceType'
-    ) as (keyof InterfaceInputs)[];
-    interfaceForm.unregister(filteredValues);
-
-    switch (interfaceType) {
-      case InterfaceType.HTTP: {
-        interfaceForm.setValue('method', HTTPRequestMethod.GET);
-
-        break;
-      }
-      case InterfaceType.WS: {
-        break;
-      }
-    }
-  }, [interfaceType, interfaceForm.unregister, interfaceForm.setValue]);
-
   return (
     <Box width="100%" height="100%">
       <PanelGroup direction="horizontal" style={{ width: '100%' }}>
@@ -110,7 +89,7 @@ const MainPage = () => {
             <Sidebar
               recordHistory={recordHistory}
               savedRecords={savedRecords}
-              onRecordSelected={onHistoryRecordSelected}
+              onRecordSelected={onRecordSelected}
               onDeleteSavedRecord={deleteSavedRecord}
             />
           </Paper>

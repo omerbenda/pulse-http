@@ -1,6 +1,7 @@
+import { InterfaceType } from '../../common/types/api-interface-types';
 import { HTTPInputs } from './components/http-display/components/http-request-form/types';
 import { WSInputs } from './components/ws-display/types';
-import { InterfaceInputs, InterfaceType } from './types';
+import { InterfaceInputs } from './types';
 
 const checkHeadersEqual = (
   headers1: { name: string; value: string }[],

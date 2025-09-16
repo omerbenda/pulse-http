@@ -1,8 +1,9 @@
 import { Box, Button, Typography, useTheme } from '@mui/material';
 import { FaTrash } from 'react-icons/fa';
-import { InterfaceInputs, InterfaceType } from '../../../types';
+import { InterfaceInputs } from '../../../types';
 import { MdHttp } from 'react-icons/md';
 import WebsocketIcon from '../../../../../assets/icons/websocket.svg?react';
+import { InterfaceType } from '../../../../../common/types/api-interface-types';
 
 type SavedRecordButtonBox = {
   record: InterfaceInputs;

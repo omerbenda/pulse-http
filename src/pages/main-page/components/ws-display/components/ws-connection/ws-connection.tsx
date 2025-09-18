@@ -67,7 +67,12 @@ const WSConnection = ({ connection }: WSConnectionProps) => {
         width="100%"
       >
         <Box flexGrow={1}>
-          <TextField variant="outlined" fullWidth {...register('content')} />
+          <TextField
+            variant="outlined"
+            fullWidth
+            disabled={!isOpen}
+            {...register('content')}
+          />
         </Box>
         <Button type="submit" variant="contained" disabled={!isOpen}>
           Send
@@ -84,7 +89,7 @@ const WSConnection = ({ connection }: WSConnectionProps) => {
             bottom={0}
             bgcolor="rgb(0, 0, 0, 0.15)"
           >
-            <Typography>Disconnected</Typography>
+            <Typography sx={{ userSelect: 'none' }}>Disconnected</Typography>
           </Box>
         )}
       </Box>

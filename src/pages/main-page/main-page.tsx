@@ -8,7 +8,7 @@ import { savedRecordsStore } from '../../common/stores';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import HTTPDisplay from './components/http-display/http-display';
 import { InterfaceInputs } from './types';
-import { HTTPInputs } from './components/http-display/components/http-request-form/types';
+import { HTTPInputs } from './components/http-display/types';
 import WSDisplay from './components/ws-display/ws-display';
 import { WSInputs } from './components/ws-display/types';
 import useInterfaceStore from '../../common/state-stores/interface-store';

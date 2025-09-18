@@ -1,5 +1,4 @@
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
-import { HTTPInputs } from './components/http-request-form/types';
 import { Box } from '@mui/material';
 import { GoGrabber } from 'react-icons/go';
 import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
@@ -7,10 +6,10 @@ import HTTPRequestForm from './components/http-request-form/http-request-form';
 import HTTPResponse from './components/http-response/http-response';
 import { useState } from 'react';
 import { InterfaceInputs } from '../../types';
-import { InterfaceType } from '../../../../common/types/api-interface-types';
+import { HTTPInputs } from './types';
 
 type HTTPDisplayProps = {
-  interfaceForm: UseFormReturn<HTTPInputs, any, HTTPInputs>;
+  interfaceForm: UseFormReturn<HTTPInputs>;
   onRecord: (record: InterfaceInputs) => void;
   onSaveRecord: (record: InterfaceInputs) => void;
 };
@@ -33,13 +32,7 @@ const HTTPDisplay = ({
       }
     });
 
-    onRecord({
-      interfaceType: InterfaceType.HTTP,
-      url: data.url,
-      method: data.method,
-      headers: data.headers,
-      body: data.body,
-    });
+    onRecord(data);
 
     const response = await fetch(data.url, {
       method: data.method,

@@ -1,9 +1,9 @@
 import { Control, Controller } from 'react-hook-form';
-import { HTTPInputs } from '../types';
 import Editor from '@monaco-editor/react';
+import { HTTPInputs } from '../../../types';
 
 type BodyControlProps = {
-  control: Control<HTTPInputs, any, HTTPInputs>;
+  control: Control<HTTPInputs>;
 };
 
 const BodyControl = ({ control }: BodyControlProps) => {

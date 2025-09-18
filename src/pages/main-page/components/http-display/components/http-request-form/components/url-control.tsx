@@ -1,6 +1,6 @@
 import { Control, Controller } from 'react-hook-form';
-import { HTTPInputs, HTTPRequestMethod } from '../types';
 import { Box, Select, MenuItem, TextField } from '@mui/material';
+import { HTTPInputs, HTTPRequestMethod } from '../../../types';
 
 type UrlControlProps = {
   control: Control<HTTPInputs>;

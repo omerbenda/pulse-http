@@ -4,7 +4,7 @@ import { WSInputs } from '../../types';
 import UrlControl from './components/url-control';
 import { HiArchiveBoxArrowDown } from 'react-icons/hi2';
 import InterfaceTypeSelect from '../../../interface-type-select/interface-type-select';
-import { InterfaceType } from '../../../../../../common/types/api-interface-types';
+import ProtocolControl from './components/protocol-control';
 
 type WSConnectionFormProps = {
   interfaceForm: UseFormReturn<WSInputs>;
@@ -19,11 +19,7 @@ const WSConnectForm = ({
 
   const saveData = () => {
     const data = getValues();
-
-    onSaveRecord({
-      interfaceType: InterfaceType.WS,
-      url: data.url,
-    });
+    onSaveRecord(data);
   };
 
   return (
@@ -44,6 +40,9 @@ const WSConnectForm = ({
         <Box flexGrow={1}>
           <UrlControl control={control} />
         </Box>
+      </Box>
+      <Box flexGrow={1}>
+        <ProtocolControl control={control} />
       </Box>
       <Box display="flex" justifyContent="flex-end" gap={1}>
         <Button onClick={saveData} variant="contained" sx={{ minWidth: 0 }}>

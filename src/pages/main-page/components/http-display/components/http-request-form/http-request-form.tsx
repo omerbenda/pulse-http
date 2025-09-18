@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Button, Box, Paper, Tab, Tabs, Typography } from '@mui/material';
 import { UseFormReturn } from 'react-hook-form';
-import { HTTPInputs, HttpRequestFormTab } from './types';
+import { HttpRequestFormTab } from './types';
 import HeadersControl from './components/headers-control';
 import BodyControl from './components/body-control';
 import UrlControl from './components/url-control';
 import { HiArchiveBoxArrowDown } from 'react-icons/hi2';
 import InterfaceTypeSelect from '../../../interface-type-select/interface-type-select';
-import { InterfaceType } from '../../../../../../common/types/api-interface-types';
+import { HTTPInputs } from '../../types';
 
 type HTTPRequestFormProps = {
   interfaceForm: UseFormReturn<HTTPInputs>;
@@ -26,13 +26,7 @@ const HTTPRequestForm = ({
 
   const saveRequest = () => {
     const data = getValues();
-    onSaveRecord({
-      interfaceType: InterfaceType.HTTP,
-      url: data.url,
-      method: data.method,
-      headers: data.headers,
-      body: data.body,
-    });
+    onSaveRecord(data);
   };
 
   return (

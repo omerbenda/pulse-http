@@ -6,7 +6,6 @@ import HTTPRequestForm from './components/http-request-form/http-request-form';
 import HTTPResponse from './components/http-response/http-response';
 import { useState } from 'react';
 import { InterfaceInputs } from '../../types';
-import { InterfaceType } from '../../../../common/types/api-interface-types';
 import { HTTPInputs } from './types';
 
 type HTTPDisplayProps = {
@@ -33,13 +32,7 @@ const HTTPDisplay = ({
       }
     });
 
-    onRecord({
-      interfaceType: InterfaceType.HTTP,
-      url: data.url,
-      method: data.method,
-      headers: data.headers,
-      body: data.body,
-    });
+    onRecord(data);
 
     const response = await fetch(data.url, {
       method: data.method,

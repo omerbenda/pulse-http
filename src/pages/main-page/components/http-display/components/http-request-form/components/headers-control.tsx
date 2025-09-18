@@ -26,19 +26,19 @@ const HeadersControl = ({ control }: HeadersControlProps) => {
 
   return (
     <Paper variant="outlined" sx={{ padding: 2 }}>
-      {fields.map(({ name }, index) => (
+      {fields.map((header, index) => (
         <Box display="flex" key={index}>
           <TextField
             placeholder="Header"
             variant="outlined"
             fullWidth
             onKeyDown={(e) => {
-              if (e.key === 'Backspace' && !name) {
+              if (e.key === 'Backspace' && !header.name) {
                 e.preventDefault();
                 deleteHeader(index);
               }
             }}
-            value={name}
+            value={header.name}
             autoFocus
             {...control.register(`headers.${index}.name`, {
               onChange: (e) => changeHeaderName(index, e.target.value),

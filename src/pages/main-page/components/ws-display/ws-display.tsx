@@ -7,7 +7,6 @@ import { WSInputs } from './types';
 import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
 import WSConnectForm from './components/ws-connect-form/ws-connection-form';
 import WSConnection from './components/ws-connection/ws-connection';
-import { InterfaceType } from '../../../../common/types/api-interface-types';
 
 type WSDisplayProps = {
   interfaceForm: UseFormReturn<WSInputs, any, WSInputs>;
@@ -25,8 +24,13 @@ const WSDisplay = ({
   const { handleSubmit } = interfaceForm;
 
   const onSubmit: SubmitHandler<WSInputs> = async (data) => {
-    onRecord({ interfaceType: InterfaceType.WS, url: data.url });
-    setConnection(new WebSocket(data.url));
+    onRecord(data);
+    setConnection(
+      new WebSocket(
+        data.url,
+        data.protocols.map((protocol) => protocol.name)
+      )
+    );
   };
 
   useEffect(() => {

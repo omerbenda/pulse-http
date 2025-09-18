@@ -1,4 +1,4 @@
-import { Box, Button, Paper, TextField } from '@mui/material';
+import { Box, Button, Paper, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import MessageBox from './components/message-box';
 import { useForm } from 'react-hook-form';
@@ -9,8 +9,9 @@ type WSConnectionProps = {
 
 const WSConnection = ({ connection }: WSConnectionProps) => {
   const [messages, setMessages] = useState<WSMessage[]>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const { register, handleSubmit } = useForm<SendMessageFormInputs>();
+  const { register, handleSubmit, setValue } = useForm<SendMessageFormInputs>();
 
   const submitMessage = (data: SendMessageFormInputs) => {
     connection.send(data.content);
@@ -22,11 +23,23 @@ const WSConnection = ({ connection }: WSConnectionProps) => {
   };
 
   useEffect(() => {
+    setIsOpen(false);
     setMessages([]);
+
+    const setOpen = () => setIsOpen(true);
+    const setClosed = () => {
+      setValue('content', '');
+      setIsOpen(false);
+    };
+
     connection.addEventListener('message', onMessage);
+    connection.addEventListener('open', setOpen);
+    connection.addEventListener('close', setClosed);
 
     return () => {
       connection.removeEventListener('message', onMessage);
+      connection.removeEventListener('open', setOpen);
+      connection.removeEventListener('close', setClosed);
     };
   }, [connection]);
 
@@ -48,6 +61,7 @@ const WSConnection = ({ connection }: WSConnectionProps) => {
       <Box
         onSubmit={handleSubmit(submitMessage)}
         component="form"
+        position="relative"
         display="flex"
         flexDirection="row"
         width="100%"
@@ -55,9 +69,24 @@ const WSConnection = ({ connection }: WSConnectionProps) => {
         <Box flexGrow={1}>
           <TextField variant="outlined" fullWidth {...register('content')} />
         </Box>
-        <Button type="submit" variant="contained">
+        <Button type="submit" variant="contained" disabled={!isOpen}>
           Send
         </Button>
+        {!isOpen && (
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            position="absolute"
+            left={0}
+            right={0}
+            top={0}
+            bottom={0}
+            bgcolor="rgb(0, 0, 0, 0.15)"
+          >
+            <Typography>Disconnected</Typography>
+          </Box>
+        )}
       </Box>
     </Paper>
   );

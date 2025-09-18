@@ -15,6 +15,7 @@ const InterfaceTypeSelect = () => {
 
   return (
     <Select
+      name="interfaceType"
       value={interfaceType}
       onChange={(e) => setInterfaceType(e.target.value)}
       required
@@ -27,20 +28,20 @@ const InterfaceTypeSelect = () => {
           justifyContent: 'center',
           alignItems: 'center',
           width: '100%',
-          height: '100%',
+          height: '100% !important',
           p: '0 !important',
         },
       }}
     >
       <MenuItem
         value={InterfaceType.HTTP}
-        sx={{ display: 'flex', justifyContent: 'center' }}
+        sx={{ display: 'flex', justifyContent: 'center', height: '100%' }}
       >
         <MdHttp size={32} />
       </MenuItem>
       <MenuItem
         value={InterfaceType.WS}
-        sx={{ display: 'flex', justifyContent: 'center' }}
+        sx={{ display: 'flex', justifyContent: 'center', height: '100%' }}
       >
         <WebsocketIcon width={24} height={24} />
       </MenuItem>

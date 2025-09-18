@@ -1,9 +1,9 @@
 import { Control, useFieldArray } from 'react-hook-form';
 import { Paper, Box, TextField } from '@mui/material';
-import { HTTPInputs } from '../types';
+import { HTTPInputs } from '../../../types';
 
 type HeadersControlProps = {
-  control: Control<HTTPInputs, any, HTTPInputs>;
+  control: Control<HTTPInputs>;
 };
 
 const HeadersControl = ({ control }: HeadersControlProps) => {

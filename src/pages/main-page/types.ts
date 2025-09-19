@@ -1,8 +1,4 @@
-import { HTTPRequestMethod } from './components/http-request-form/types';
+import { HTTPInputs } from './components/http-display/types';
+import { WSInputs } from './components/ws-display/types';
 
-export type RequestRecord = {
-  url: string;
-  method: HTTPRequestMethod;
-  headers: { name: string; value: string }[];
-  body?: string;
-};
+export type InterfaceInputs = HTTPInputs | WSInputs;

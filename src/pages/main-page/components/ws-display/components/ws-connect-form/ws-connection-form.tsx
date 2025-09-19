@@ -41,7 +41,7 @@ const WSConnectForm = ({
           <UrlControl control={control} />
         </Box>
       </Box>
-      <Box flexGrow={1}>
+      <Box flexGrow={1} overflow="auto">
         <ProtocolControl control={control} />
       </Box>
       <Box display="flex" justifyContent="flex-end" gap={1}>

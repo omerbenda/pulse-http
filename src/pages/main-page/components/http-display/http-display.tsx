@@ -1,12 +1,12 @@
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { Box } from '@mui/material';
-import { GoGrabber } from 'react-icons/go';
-import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
+import { PanelGroup, Panel } from 'react-resizable-panels';
 import HTTPRequestForm from './components/http-request-form/http-request-form';
 import HTTPResponse from './components/http-response/http-response';
 import { useState } from 'react';
 import { InterfaceInputs } from '../../types';
 import { HTTPInputs } from './types';
+import ThemedResizeHandle from '../../../../common/components/themed-resize-handle';
 
 type HTTPDisplayProps = {
   interfaceForm: UseFormReturn<HTTPInputs>;
@@ -64,18 +64,7 @@ const HTTPDisplay = ({
       </Panel>
       {response && (
         <>
-          <PanelResizeHandle>
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              bgcolor="lightgray"
-              width="100%"
-              height="16px"
-            >
-              <GoGrabber size={16} style={{ rotate: '90deg' }} />
-            </Box>
-          </PanelResizeHandle>
+          <ThemedResizeHandle direction="horizontal" />
           <Panel>
             <Box height="100%">
               <HTTPResponse response={response} />

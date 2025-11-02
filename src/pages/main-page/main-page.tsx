@@ -48,6 +48,7 @@ const MainPage = () => {
     const newSavedRecords = [...savedRecords, record];
     setSavedRecords(newSavedRecords);
     await savedRecordsStore.set('data', newSavedRecords);
+    await savedRecordsStore.save();
   };
 
   const onRecordSelected = (record: InterfaceInputs) => {
@@ -79,6 +80,7 @@ const MainPage = () => {
     );
     setSavedRecords(newSavedRecords);
     await savedRecordsStore.set('data', newSavedRecords);
+    await savedRecordsStore.save();
   };
 
   useEffect(() => {
@@ -104,7 +106,7 @@ const MainPage = () => {
             />
           </Paper>
         </Panel>
-        <ThemedResizeHandle direction='vertical' />
+        <ThemedResizeHandle direction="vertical" />
         <Panel>
           {interfaceType === InterfaceType.HTTP ? (
             <HTTPDisplay

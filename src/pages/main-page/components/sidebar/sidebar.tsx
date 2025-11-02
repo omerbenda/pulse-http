@@ -71,14 +71,28 @@ const Sidebar = ({
           width="100%"
           height="100%"
         >
-          {[...recordHistory].reverse().map((record, index) => (
-            <HistoryRecordButton
-              record={record}
-              onClick={() => onRecordSelected(record)}
-              key={index}
-              fullWidth
-            />
-          ))}
+          {recordHistory.length > 0 ? (
+            [...recordHistory]
+              .reverse()
+              .map((record, index) => (
+                <HistoryRecordButton
+                  record={record}
+                  onClick={() => onRecordSelected(record)}
+                  key={index}
+                  fullWidth
+                />
+              ))
+          ) : (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="100%"
+              height="100%"
+            >
+              <Typography>No history records found.</Typography>
+            </Box>
+          )}
         </Box>
       ) : (
         <Box
@@ -89,16 +103,30 @@ const Sidebar = ({
           width="100%"
           height="100%"
         >
-          {[...savedRecords].reverse().map((record, index, array) => (
-            <SavedRecordBox
-              record={record}
-              onRecordSelected={() => onRecordSelected(record)}
-              onDeleteRecord={() =>
-                onDeleteSavedRecord(array.length - 1 - index)
-              }
-              key={index}
-            />
-          ))}
+          {savedRecords.length > 0 ? (
+            [...savedRecords]
+              .reverse()
+              .map((record, index, array) => (
+                <SavedRecordBox
+                  record={record}
+                  onRecordSelected={() => onRecordSelected(record)}
+                  onDeleteRecord={() =>
+                    onDeleteSavedRecord(array.length - 1 - index)
+                  }
+                  key={index}
+                />
+              ))
+          ) : (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="100%"
+              height="100%"
+            >
+              <Typography>No saved records found.</Typography>
+            </Box>
+          )}
         </Box>
       )}
     </Box>

@@ -45,7 +45,9 @@ const Sidebar = ({
     >
       <Box display="flex" width="100%">
         <Box display="flex" flexGrow={1} alignItems="center">
-          <Typography>PulseHTTP</Typography>
+          <Typography fontWeight="bold" sx={{ userSelect: 'none' }}>
+            PulseHTTP
+          </Typography>
         </Box>
         <IconButton onClick={changeDisplayTheme} size="small">
           {displayTheme === 'light' ? <FaSun color="orange" /> : <FaMoon />}

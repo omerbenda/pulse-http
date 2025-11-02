@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
+import { Panel, PanelGroup } from 'react-resizable-panels';
 import { Box, Paper } from '@mui/material';
-import { GoGrabber } from 'react-icons/go';
 import Sidebar from './components/sidebar/sidebar';
 import { checkRecordsEqual } from './utils';
 import { savedRecordsStore } from '../../common/stores';
@@ -14,6 +13,7 @@ import { WSInputs } from './components/ws-display/types';
 import useInterfaceStore from '../../common/state-stores/interface-store';
 import { InterfaceType } from '../../common/types/api-interface-types';
 import { useShallow } from 'zustand/shallow';
+import ThemedResizeHandle from '../../common/components/themed-resize-handle';
 
 const MainPage = () => {
   const [recordHistory, setRecordHistory] = useState<InterfaceInputs[]>([]);
@@ -48,6 +48,7 @@ const MainPage = () => {
     const newSavedRecords = [...savedRecords, record];
     setSavedRecords(newSavedRecords);
     await savedRecordsStore.set('data', newSavedRecords);
+    await savedRecordsStore.save();
   };
 
   const onRecordSelected = (record: InterfaceInputs) => {
@@ -79,6 +80,7 @@ const MainPage = () => {
     );
     setSavedRecords(newSavedRecords);
     await savedRecordsStore.set('data', newSavedRecords);
+    await savedRecordsStore.save();
   };
 
   useEffect(() => {
@@ -104,19 +106,7 @@ const MainPage = () => {
             />
           </Paper>
         </Panel>
-        <PanelResizeHandle>
-          <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            bgcolor="lightgray"
-            width="16px"
-            height="100%"
-          >
-            <GoGrabber size={16} />
-          </Box>
-        </PanelResizeHandle>
+        <ThemedResizeHandle direction="vertical" />
         <Panel>
           {interfaceType === InterfaceType.HTTP ? (
             <HTTPDisplay

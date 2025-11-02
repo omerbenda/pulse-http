@@ -1,4 +1,4 @@
 # pulse-http
 An API testing app, capable of testing HTTP and WebSocket APIs
 
-<img width="802" height="632" alt="image" src="https://github.com/user-attachments/assets/5f738e02-9219-46e5-8e7d-0b9a3cea2285" />
+<img width="950" height="691" alt="image" src="https://github.com/user-attachments/assets/cc551d32-94b4-4641-b4ed-99bdd77b596f" />

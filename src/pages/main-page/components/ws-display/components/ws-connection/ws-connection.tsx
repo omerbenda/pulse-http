@@ -49,6 +49,7 @@ const WSConnection = ({ connection }: WSConnectionProps) => {
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
+        borderRadius: 0,
         width: '100%',
         height: '100%',
       }}

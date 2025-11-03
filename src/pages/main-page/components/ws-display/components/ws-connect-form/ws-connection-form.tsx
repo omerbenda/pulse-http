@@ -29,6 +29,7 @@ const WSConnectForm = ({
       sx={{
         display: 'flex',
         flexDirection: 'column',
+        borderRadius: 0,
         height: '100%',
         gap: 2,
         padding: 2,

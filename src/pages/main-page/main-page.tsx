@@ -97,7 +97,11 @@ const MainPage = () => {
     <Box width="100%" height="100%">
       <PanelGroup direction="horizontal" style={{ width: '100%' }}>
         <Panel defaultSize={25}>
-          <Paper variant="elevation" elevation={1} sx={{ height: '100%' }}>
+          <Paper
+            variant="elevation"
+            elevation={1}
+            sx={{ borderRadius: 0, height: '100%' }}
+          >
             <Sidebar
               recordHistory={recordHistory}
               savedRecords={savedRecords}

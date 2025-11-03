@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
-import { GoGrabber } from 'react-icons/go';
 import { InterfaceInputs } from '../../types';
 import { WSInputs } from './types';
-import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
+import { PanelGroup, Panel } from 'react-resizable-panels';
 import WSConnectForm from './components/ws-connect-form/ws-connection-form';
 import WSConnection from './components/ws-connection/ws-connection';
+import ThemedResizeHandle from '../../../../common/components/themed-resize-handle';
 
 type WSDisplayProps = {
   interfaceForm: UseFormReturn<WSInputs, any, WSInputs>;
@@ -62,18 +62,7 @@ const WSDisplay = ({
       </Panel>
       {connection && (
         <>
-          <PanelResizeHandle>
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              bgcolor="lightgray"
-              width="100%"
-              height="16px"
-            >
-              <GoGrabber size={16} style={{ rotate: '90deg' }} />
-            </Box>
-          </PanelResizeHandle>
+          <ThemedResizeHandle direction='horizontal' />
           <Panel>
             <Box height="100%">
               <WSConnection connection={connection} />

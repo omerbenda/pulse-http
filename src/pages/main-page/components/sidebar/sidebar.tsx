@@ -1,9 +1,12 @@
-import { Box, Tab, Tabs } from '@mui/material';
+import { Box, Divider, IconButton, Tab, Tabs, Typography } from '@mui/material';
 import HistoryRecordButton from './component/history-record-button';
 import { SidebarTab } from './types';
 import { useState } from 'react';
 import SavedRecordBox from './component/saved-record-button';
 import { InterfaceInputs } from '../../types';
+import useSettingsStore from '../../../../common/state-stores/settings-store';
+import { useShallow } from 'zustand/shallow';
+import { FaMoon, FaSun } from 'react-icons/fa';
 
 type SidebarProps = {
   recordHistory: InterfaceInputs[];
@@ -20,6 +23,18 @@ const Sidebar = ({
 }: SidebarProps) => {
   const [activeTab, setActiveTab] = useState<SidebarTab>(SidebarTab.HISTORY);
 
+  const { displayTheme, setDisplayTheme } = useSettingsStore(
+    useShallow((state) => ({
+      displayTheme: state.displayTheme,
+      setDisplayTheme: state.setDisplayTheme,
+    }))
+  );
+
+  const changeDisplayTheme = async () => {
+    const newTheme = displayTheme === 'light' ? 'dark' : 'light';
+    await setDisplayTheme(newTheme);
+  };
+
   return (
     <Box
       display="flex"
@@ -28,6 +43,17 @@ const Sidebar = ({
       width="100%"
       height="100%"
     >
+      <Box display="flex" width="100%">
+        <Box display="flex" flexGrow={1} alignItems="center">
+          <Typography fontWeight="bold" sx={{ userSelect: 'none' }}>
+            PulseHTTP
+          </Typography>
+        </Box>
+        <IconButton onClick={changeDisplayTheme} size="small">
+          {displayTheme === 'light' ? <FaSun color="orange" /> : <FaMoon />}
+        </IconButton>
+      </Box>
+      <Divider />
       <Tabs
         value={activeTab}
         variant="fullWidth"
@@ -45,14 +71,28 @@ const Sidebar = ({
           width="100%"
           height="100%"
         >
-          {[...recordHistory].reverse().map((record, index) => (
-            <HistoryRecordButton
-              record={record}
-              onClick={() => onRecordSelected(record)}
-              key={index}
-              fullWidth
-            />
-          ))}
+          {recordHistory.length > 0 ? (
+            [...recordHistory]
+              .reverse()
+              .map((record, index) => (
+                <HistoryRecordButton
+                  record={record}
+                  onClick={() => onRecordSelected(record)}
+                  key={index}
+                  fullWidth
+                />
+              ))
+          ) : (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="100%"
+              height="100%"
+            >
+              <Typography>No history records found.</Typography>
+            </Box>
+          )}
         </Box>
       ) : (
         <Box
@@ -63,16 +103,30 @@ const Sidebar = ({
           width="100%"
           height="100%"
         >
-          {[...savedRecords].reverse().map((record, index, array) => (
-            <SavedRecordBox
-              record={record}
-              onRecordSelected={() => onRecordSelected(record)}
-              onDeleteRecord={() =>
-                onDeleteSavedRecord(array.length - 1 - index)
-              }
-              key={index}
-            />
-          ))}
+          {savedRecords.length > 0 ? (
+            [...savedRecords]
+              .reverse()
+              .map((record, index, array) => (
+                <SavedRecordBox
+                  record={record}
+                  onRecordSelected={() => onRecordSelected(record)}
+                  onDeleteRecord={() =>
+                    onDeleteSavedRecord(array.length - 1 - index)
+                  }
+                  key={index}
+                />
+              ))
+          ) : (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="100%"
+              height="100%"
+            >
+              <Typography>No saved records found.</Typography>
+            </Box>
+          )}
         </Box>
       )}
     </Box>

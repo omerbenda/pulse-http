@@ -27,7 +27,7 @@ const MainPage = () => {
   );
 
   const interfaceForm = useForm<InterfaceInputs>({
-    shouldUnregister: true,
+    shouldUnregister: false,
   });
 
   const onRecord = (record: InterfaceInputs) => {
@@ -83,7 +83,17 @@ const MainPage = () => {
     await savedRecordsStore.save();
   };
 
+  const unregisterAllValues = () => {
+    const values = interfaceForm.getValues();
+
+    Object.keys(values).forEach((key) => {
+      interfaceForm.unregister(key as keyof InterfaceInputs);
+    });
+  };
+
   useEffect(() => {
+    unregisterAllValues();
+
     interfaceForm.setValue('interfaceType', interfaceType);
   }, [interfaceType]);
 

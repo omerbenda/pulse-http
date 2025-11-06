@@ -1,5 +1,4 @@
 import { Box, useTheme } from '@mui/material';
-import { GoGrabber } from 'react-icons/go';
 import {
   PanelResizeHandle,
   PanelResizeHandleProps,
@@ -23,12 +22,16 @@ const ThemedResizeHandle = ({
         justifyContent="center"
         alignItems="center"
         bgcolor={theme.palette.divider}
-        width={direction === 'vertical' ? '16px' : '100%'}
-        height={direction === 'vertical' ? '100%' : '16px'}
+        width={direction === 'vertical' ? '12px' : '100%'}
+        height={direction === 'vertical' ? '100%' : '12px'}
       >
-        <GoGrabber
-          size={16}
-          style={{ rotate: direction === 'horizontal' ? '90deg' : undefined }}
+        <Box
+          width={direction === 'vertical' ? '4px' : '5%'}
+          height={direction === 'vertical' ? '5%' : '4px'}
+          minWidth={direction === 'vertical' ? '4px' : '64px'}
+          minHeight={direction === 'vertical' ? '64px' : '4px'}
+          bgcolor={theme.palette.grey[500]}
+          borderRadius={'9999px'}
         />
       </Box>
     </PanelResizeHandle>

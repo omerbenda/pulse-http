@@ -1,4 +1,12 @@
-import { Box, Divider, IconButton, Tab, Tabs, Typography } from '@mui/material';
+import {
+  Box,
+  Divider,
+  IconButton,
+  Tab,
+  Tabs,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import HistoryRecordButton from './component/history-record-button';
 import { SidebarTab } from './types';
 import { useState } from 'react';
@@ -29,6 +37,8 @@ const Sidebar = ({
       setDisplayTheme: state.setDisplayTheme,
     }))
   );
+
+  const theme = useTheme();
 
   const changeDisplayTheme = async () => {
     const newTheme = displayTheme === 'light' ? 'dark' : 'light';
@@ -90,7 +100,9 @@ const Sidebar = ({
               width="100%"
               height="100%"
             >
-              <Typography>No history records found.</Typography>
+              <Typography color={theme.palette.grey[500]}>
+                No history records found.
+              </Typography>
             </Box>
           )}
         </Box>
@@ -124,7 +136,9 @@ const Sidebar = ({
               width="100%"
               height="100%"
             >
-              <Typography>No saved records found.</Typography>
+              <Typography color={theme.palette.grey[500]}>
+                No saved records found.
+              </Typography>
             </Box>
           )}
         </Box>

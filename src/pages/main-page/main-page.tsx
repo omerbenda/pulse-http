@@ -10,25 +10,21 @@ import { InterfaceInputs } from './types';
 import { HTTPInputs } from './components/http-display/types';
 import WSDisplay from './components/ws-display/ws-display';
 import { WSInputs } from './components/ws-display/types';
-import useInterfaceStore from '../../common/state-stores/interface-store';
 import { InterfaceType } from '../../common/types/api-interface-types';
-import { useShallow } from 'zustand/shallow';
 import ThemedResizeHandle from '../../common/components/themed-resize-handle';
 
 const MainPage = () => {
   const [recordHistory, setRecordHistory] = useState<InterfaceInputs[]>([]);
   const [savedRecords, setSavedRecords] = useState<InterfaceInputs[]>([]);
 
-  const { interfaceType, setInterfaceType } = useInterfaceStore(
-    useShallow((state) => ({
-      interfaceType: state.interfaceType,
-      setInterfaceType: state.setInterfaceType,
-    }))
-  );
-
   const interfaceForm = useForm<InterfaceInputs>({
     shouldUnregister: false,
+    defaultValues: {
+      interfaceType: InterfaceType.HTTP,
+    },
   });
+
+  const interfaceType = interfaceForm.watch('interfaceType');
 
   const onRecord = (record: InterfaceInputs) => {
     setRecordHistory((curr) => {
@@ -53,7 +49,7 @@ const MainPage = () => {
 
   const onRecordSelected = (record: InterfaceInputs) => {
     interfaceForm.reset({}, { keepDefaultValues: false });
-    setInterfaceType(record.interfaceType);
+    interfaceForm.setValue('interfaceType', record.interfaceType);
 
     switch (record.interfaceType) {
       case InterfaceType.HTTP: {
@@ -83,10 +79,6 @@ const MainPage = () => {
     await savedRecordsStore.set('data', newSavedRecords);
     await savedRecordsStore.save();
   };
-
-  useEffect(() => {
-    interfaceForm.setValue('interfaceType', interfaceType);
-  }, [interfaceType]);
 
   useEffect(() => {
     savedRecordsStore

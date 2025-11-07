@@ -2,24 +2,19 @@ import { Select, MenuItem } from '@mui/material';
 import { MdHttp } from 'react-icons/md';
 import WebsocketIcon from '../../../../assets/icons/websocket.svg?react';
 import { InterfaceType } from '../../../../common/types/api-interface-types';
-import useInterfaceStore from '../../../../common/state-stores/interface-store';
-import { useShallow } from 'zustand/shallow';
+import { UseFormReturn } from 'react-hook-form';
+import { InterfaceInputs } from '../../types';
 
 type InterfaceTypeSelectProps = {
-  cleanupForm: () => void;
+  interfaceForm: UseFormReturn<InterfaceInputs>;
 };
 
-const InterfaceTypeSelect = ({ cleanupForm }: InterfaceTypeSelectProps) => {
-  const { interfaceType, setInterfaceType } = useInterfaceStore(
-    useShallow((state) => ({
-      interfaceType: state.interfaceType,
-      setInterfaceType: state.setInterfaceType,
-    }))
-  );
+const InterfaceTypeSelect = ({ interfaceForm }: InterfaceTypeSelectProps) => {
+  const interfaceType = interfaceForm.watch('interfaceType');
 
   const changeInterface = (newType: InterfaceType) => {
-    cleanupForm();
-    setInterfaceType(newType);
+    interfaceForm.reset({}, { keepDefaultValues: false });
+    interfaceForm.setValue('interfaceType', newType);
   };
 
   return (

@@ -5,6 +5,7 @@ import UrlControl from './components/url-control';
 import { HiArchiveBoxArrowDown } from 'react-icons/hi2';
 import InterfaceTypeSelect from '../../../interface-type-select/interface-type-select';
 import ProtocolControl from './components/protocol-control';
+import { InterfaceInputs } from '../../../../types';
 
 type WSConnectionFormProps = {
   interfaceForm: UseFormReturn<WSInputs>;
@@ -15,7 +16,7 @@ const WSConnectForm = ({
   interfaceForm,
   onSaveRecord,
 }: WSConnectionFormProps) => {
-  const { control, getValues, reset } = interfaceForm;
+  const { control, getValues } = interfaceForm;
 
   const saveData = () => {
     const data = getValues();
@@ -38,7 +39,7 @@ const WSConnectForm = ({
     >
       <Box display="flex" gap={1}>
         <InterfaceTypeSelect
-          cleanupForm={() => reset({}, { keepDefaultValues: false })}
+          interfaceForm={interfaceForm as UseFormReturn<InterfaceInputs>}
         />
         <Box flexGrow={1}>
           <UrlControl control={control} />

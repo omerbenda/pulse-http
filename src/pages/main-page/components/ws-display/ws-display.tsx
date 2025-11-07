@@ -62,7 +62,7 @@ const WSDisplay = ({
       </Panel>
       {connection && (
         <>
-          <ThemedResizeHandle direction='horizontal' />
+          <ThemedResizeHandle direction="horizontal" />
           <Panel>
             <Box height="100%">
               <WSConnection connection={connection} />

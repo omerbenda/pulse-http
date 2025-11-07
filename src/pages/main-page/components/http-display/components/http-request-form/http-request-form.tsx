@@ -8,6 +8,7 @@ import UrlControl from './components/url-control';
 import { HiArchiveBoxArrowDown } from 'react-icons/hi2';
 import InterfaceTypeSelect from '../../../interface-type-select/interface-type-select';
 import { HTTPInputs } from '../../types';
+import { InterfaceInputs } from '../../../../types';
 
 type HTTPRequestFormProps = {
   interfaceForm: UseFormReturn<HTTPInputs>;
@@ -36,6 +37,7 @@ const HTTPRequestForm = ({
       sx={{
         display: 'flex',
         flexDirection: 'column',
+        borderRadius: 0,
         height: '100%',
         gap: 2,
         padding: 2,
@@ -43,7 +45,9 @@ const HTTPRequestForm = ({
       }}
     >
       <Box display="flex" gap={1}>
-        <InterfaceTypeSelect />
+        <InterfaceTypeSelect
+          interfaceForm={interfaceForm as UseFormReturn<InterfaceInputs>}
+        />
         <Box flexGrow={1}>
           <UrlControl control={control} />
         </Box>

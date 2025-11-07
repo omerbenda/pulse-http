@@ -36,6 +36,7 @@ const HTTPResponse = ({ response }: HTTPResponseProps) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
+        borderRadius: 0,
         overflow: 'hidden',
         height: '100%',
         padding: 2,

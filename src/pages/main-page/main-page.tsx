@@ -10,25 +10,21 @@ import { InterfaceInputs } from './types';
 import { HTTPInputs } from './components/http-display/types';
 import WSDisplay from './components/ws-display/ws-display';
 import { WSInputs } from './components/ws-display/types';
-import useInterfaceStore from '../../common/state-stores/interface-store';
 import { InterfaceType } from '../../common/types/api-interface-types';
-import { useShallow } from 'zustand/shallow';
 import ThemedResizeHandle from '../../common/components/themed-resize-handle';
 
 const MainPage = () => {
   const [recordHistory, setRecordHistory] = useState<InterfaceInputs[]>([]);
   const [savedRecords, setSavedRecords] = useState<InterfaceInputs[]>([]);
 
-  const { interfaceType, setInterfaceType } = useInterfaceStore(
-    useShallow((state) => ({
-      interfaceType: state.interfaceType,
-      setInterfaceType: state.setInterfaceType,
-    }))
-  );
-
   const interfaceForm = useForm<InterfaceInputs>({
-    shouldUnregister: true,
+    shouldUnregister: false,
+    defaultValues: {
+      interfaceType: InterfaceType.HTTP,
+    },
   });
+
+  const interfaceType = interfaceForm.watch('interfaceType');
 
   const onRecord = (record: InterfaceInputs) => {
     setRecordHistory((curr) => {
@@ -52,7 +48,8 @@ const MainPage = () => {
   };
 
   const onRecordSelected = (record: InterfaceInputs) => {
-    setInterfaceType(record.interfaceType);
+    interfaceForm.reset({}, { keepDefaultValues: false });
+    interfaceForm.setValue('interfaceType', record.interfaceType);
 
     switch (record.interfaceType) {
       case InterfaceType.HTTP: {
@@ -84,10 +81,6 @@ const MainPage = () => {
   };
 
   useEffect(() => {
-    interfaceForm.setValue('interfaceType', interfaceType);
-  }, [interfaceType]);
-
-  useEffect(() => {
     savedRecordsStore
       .get<InterfaceInputs[]>('data')
       .then((records) => setSavedRecords(records || []));
@@ -97,7 +90,11 @@ const MainPage = () => {
     <Box width="100%" height="100%">
       <PanelGroup direction="horizontal" style={{ width: '100%' }}>
         <Panel defaultSize={25}>
-          <Paper variant="elevation" elevation={1} sx={{ height: '100%' }}>
+          <Paper
+            variant="elevation"
+            elevation={1}
+            sx={{ borderRadius: 0, height: '100%' }}
+          >
             <Sidebar
               recordHistory={recordHistory}
               savedRecords={savedRecords}

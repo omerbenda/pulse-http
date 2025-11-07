@@ -5,7 +5,11 @@ import { InterfaceType } from '../../../../common/types/api-interface-types';
 import useInterfaceStore from '../../../../common/state-stores/interface-store';
 import { useShallow } from 'zustand/shallow';
 
-const InterfaceTypeSelect = () => {
+type InterfaceTypeSelectProps = {
+  cleanupForm: () => void;
+};
+
+const InterfaceTypeSelect = ({ cleanupForm }: InterfaceTypeSelectProps) => {
   const { interfaceType, setInterfaceType } = useInterfaceStore(
     useShallow((state) => ({
       interfaceType: state.interfaceType,
@@ -13,11 +17,16 @@ const InterfaceTypeSelect = () => {
     }))
   );
 
+  const changeInterface = (newType: InterfaceType) => {
+    cleanupForm();
+    setInterfaceType(newType);
+  };
+
   return (
     <Select
       name="interfaceType"
       value={interfaceType}
-      onChange={(e) => setInterfaceType(e.target.value)}
+      onChange={(e) => changeInterface(e.target.value)}
       required
       sx={{
         width: 56,

@@ -52,6 +52,7 @@ const MainPage = () => {
   };
 
   const onRecordSelected = (record: InterfaceInputs) => {
+    interfaceForm.reset({}, { keepDefaultValues: false });
     setInterfaceType(record.interfaceType);
 
     switch (record.interfaceType) {
@@ -83,17 +84,7 @@ const MainPage = () => {
     await savedRecordsStore.save();
   };
 
-  const unregisterAllValues = () => {
-    const values = interfaceForm.getValues();
-
-    Object.keys(values).forEach((key) => {
-      interfaceForm.unregister(key as keyof InterfaceInputs);
-    });
-  };
-
   useEffect(() => {
-    unregisterAllValues();
-
     interfaceForm.setValue('interfaceType', interfaceType);
   }, [interfaceType]);
 

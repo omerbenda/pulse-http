@@ -22,7 +22,7 @@ const HTTPRequestForm = ({
     HttpRequestFormTab.HEADERS
   );
 
-  const { control, getValues } = interfaceForm;
+  const { control, getValues, reset } = interfaceForm;
 
   const saveRequest = () => {
     const data = getValues();
@@ -44,7 +44,9 @@ const HTTPRequestForm = ({
       }}
     >
       <Box display="flex" gap={1}>
-        <InterfaceTypeSelect />
+        <InterfaceTypeSelect
+          cleanupForm={() => reset({}, { keepDefaultValues: false })}
+        />
         <Box flexGrow={1}>
           <UrlControl control={control} />
         </Box>
